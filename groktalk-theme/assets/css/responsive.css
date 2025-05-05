@@ -1,0 +1,44 @@
+/* Responsive Styles for GrokTalk Theme */
+
+/* Mobile-first approach */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .nav-menu {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .services-grid,
+    .related-posts-grid,
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .services-grid,
+    .related-posts-grid,
+    .featured-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1025px) {
+    .services-grid,
+    .related-posts-grid,
+    .featured-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

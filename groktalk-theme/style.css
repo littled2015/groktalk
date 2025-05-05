@@ -1,0 +1,91 @@
+/*
+Theme Name: GrokTalk AI Navigator
+Theme URI: https://groktalk.io
+Description: Custom WordPress theme for AI consulting and services
+Author: @grokgirl
+Version: 1.0.0
+Text Domain: groktalk
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Tags: ai, consulting, tech, cosmos, dark-theme, responsive, custom-menu
+Requires at least: 5.0
+Tested up to: 6.4
+Requires PHP: 7.4
+*/
+
+/* Theme Variables */
+:root {
+    --cosmic-blue: #1A237E;
+    --neon-green: #39FF14;
+    --starlight-silver: #D3D3D3;
+    --midnight-black: #1A1A1D;
+    --cosmic-web-grey: #333333;
+    --electric-purple: #8A2BE2;
+    --text-white: #FFFFFF;
+    --text-light-grey: #F5F5F5;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--midnight-black);
+    color: var(--text-white);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: var(--text-white);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--neon-green);
+}
+
+/* Accessibility */
+.screen-reader-text {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+.skip-link {
+    background-color: var(--cosmic-blue);
+    color: var(--neon-green);
+    font-weight: bold;
+    outline: 0;
+    padding: 1rem;
+    position: absolute;
+    z-index: 999;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+/* Ensure content is accessible */
+article, aside, footer, header, nav, section {
+    position: relative;
+}
