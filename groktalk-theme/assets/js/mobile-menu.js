@@ -3,20 +3,36 @@
     'use strict';
     
     $(document).ready(function() {
-        $('.mobile-menu-toggle').on('click', function() {
-            var $this = $(this);
-            var $nav = $('.main-navigation');
-            
-            $nav.toggleClass('active');
-            $this.toggleClass('active');
-            $this.attr('aria-expanded', $nav.hasClass('active'));
+        // Initialize mobile menu
+        initMobileMenu();
+    });
+    
+    function initMobileMenu() {
+        var $toggle = $('.mobile-menu-toggle');
+        var $nav = $('.main-navigation');
+        var $body = $('body');
+        
+        if (!$toggle.length || !$nav.length) {
+            return;
+        }
+        
+        // Toggle menu on click
+        $toggle.on('click', function(e) {
+            e.preventDefault();
+            toggleMenu();
+        });
+        
+        // Close menu on escape key
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape' && $nav.hasClass('active')) {
+                closeMenu();
+            }
         });
         
         // Close menu when clicking outside
         $(document).on('click', function(e) {
-            if (!$(e.target).closest('.site-header').length) {
-                $('.main-navigation').removeClass('active');
-                $('.mobile-menu-toggle').removeClass('active').attr('aria-expanded', 'false');
+            if (!$(e.target).closest('.site-header').length && $nav.hasClass('active')) {
+                closeMenu();
             }
         });
         
@@ -26,10 +42,39 @@
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function() {
                 if ($(window).width() > 768) {
-                    $('.main-navigation').removeClass('active');
-                    $('.mobile-menu-toggle').removeClass('active').attr('aria-expanded', 'false');
+                    closeMenu();
                 }
             }, 250);
         });
-    });
+        
+        // Prevent scrolling when menu is open
+        function preventScroll() {
+            $body.css('overflow', 'hidden');
+        }
+        
+        function enableScroll() {
+            $body.css('overflow', '');
+        }
+        
+        function toggleMenu() {
+            $nav.toggleClass('active');
+            $toggle.toggleClass('active');
+            
+            var expanded = $nav.hasClass('active');
+            $toggle.attr('aria-expanded', expanded);
+            
+            if (expanded) {
+                preventScroll();
+            } else {
+                enableScroll();
+            }
+        }
+        
+        function closeMenu() {
+            $nav.removeClass('active');
+            $toggle.removeClass('active');
+            $toggle.attr('aria-expanded', 'false');
+            enableScroll();
+        }
+    }
 })(jQuery);

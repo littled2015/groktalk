@@ -75,51 +75,9 @@ function groktalk_theme_setup() {
 }
 add_action('after_setup_theme', 'groktalk_theme_setup');
 
-/**
- * Widget areas
- */
-function groktalk_widgets_init() {
-    register_sidebar(array(
-        'name'          => esc_html__('Sidebar', 'groktalk'),
-        'id'            => 'sidebar-1',
-        'description'   => esc_html__('Add widgets here.', 'groktalk'),
-        'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '<h2 class="widget-title">',
-        'after_title'   => '</h2>',
-    ));
-    
-    register_sidebar(array(
-        'name'          => esc_html__('Footer Widget 1', 'groktalk'),
-        'id'            => 'footer-1',
-        'description'   => esc_html__('Add widgets for first footer column.', 'groktalk'),
-        'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '<h3 class="widget-title">',
-        'after_title'   => '</h3>',
-    ));
-    
-    register_sidebar(array(
-        'name'          => esc_html__('Footer Widget 2', 'groktalk'),
-        'id'            => 'footer-2',
-        'description'   => esc_html__('Add widgets for second footer column.', 'groktalk'),
-        'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '<h3 class="widget-title">',
-        'after_title'   => '</h3>',
-    ));
-    
-    register_sidebar(array(
-        'name'          => esc_html__('Footer Widget 3', 'groktalk'),
-        'id'            => 'footer-3',
-        'description'   => esc_html__('Add widgets for third footer column.', 'groktalk'),
-        'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '<h3 class="widget-title">',
-        'after_title'   => '</h3>',
-    ));
-}
-add_action('widgets_init', 'groktalk_widgets_init');
+// Include required files
+require get_template_directory() . '/inc/widgets.php';
+require get_template_directory() . '/inc/customizer.php';
 
 /**
  * Add mobile menu button to header
@@ -493,75 +451,6 @@ function groktalk_save_meta_box_data($post_id) {
     }
 }
 add_action('save_post', 'groktalk_save_meta_box_data');
-
-/**
- * Customizer options
- */
-function groktalk_customize_register($wp_customize) {
-    // Theme options panel
-    $wp_customize->add_panel('groktalk_options', array(
-        'title' => __('GrokTalk Options', 'groktalk'),
-        'priority' => 160,
-    ));
-
-    // Social Media Section
-    $wp_customize->add_section('groktalk_social', array(
-        'title' => __('Social Media', 'groktalk'),
-        'panel' => 'groktalk_options',
-    ));
-
-    $wp_customize->add_setting('twitter_url', array(
-        'default' => '',
-        'sanitize_callback' => 'esc_url_raw',
-        'transport' => 'refresh',
-    ));
-
-    $wp_customize->add_control('twitter_url', array(
-        'label' => __('Twitter URL', 'groktalk'),
-        'section' => 'groktalk_social',
-        'type' => 'url',
-    ));
-
-    $wp_customize->add_setting('linkedin_url', array(
-        'default' => '',
-        'sanitize_callback' => 'esc_url_raw',
-        'transport' => 'refresh',
-    ));
-
-    $wp_customize->add_control('linkedin_url', array(
-        'label' => __('LinkedIn URL', 'groktalk'),
-        'section' => 'groktalk_social',
-        'type' => 'url',
-    ));
-
-    // Color Section
-    $wp_customize->add_section('groktalk_colors', array(
-        'title' => __('Theme Colors', 'groktalk'),
-        'panel' => 'groktalk_options',
-    ));
-
-    $colors = array(
-        'cosmic_blue' => '#1A237E',
-        'neon_green' => '#39FF14',
-        'electric_purple' => '#8A2BE2',
-        'starlight_silver' => '#D3D3D3',
-        'cosmic_web_grey' => '#333333',
-    );
-
-    foreach ($colors as $key => $default) {
-        $wp_customize->add_setting($key, array(
-            'default' => $default,
-            'sanitize_callback' => 'sanitize_hex_color',
-            'transport' => 'refresh',
-        ));
-
-        $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, $key, array(
-            'label' => ucwords(str_replace('_', ' ', $key)),
-            'section' => 'groktalk_colors',
-        )));
-    }
-}
-add_action('customize_register', 'groktalk_customize_register');
 
 /**
  * Fix jQuery noConflict for legacy code
