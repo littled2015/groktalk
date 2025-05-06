@@ -1,59 +1,184 @@
-<!DOCTYPE html>
-<html <?php language_attributes(); ?>>
-<head>
-    <meta charset="<?php bloginfo('charset'); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?php bloginfo('description'); ?>">
-    <link rel="profile" href="https://gmpg.org/xfn/11">
-    <?php wp_head(); ?>
-</head>
-<body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
+/* Header Styles - Updated for improved logo positioning */
+.site-header {
+    background-color: rgba(5, 5, 16, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 2rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(121, 40, 202, 0.1); /* Changed to purple */
+}
 
-<a href="#content" class="skip-link screen-reader-text"><?php esc_html_e('Skip to content', 'groktalk'); ?></a>
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-<!-- Cosmic Header -->
-<header class="site-header">
-    <div class="container">
-        <div class="header-inner">
-            <div class="site-branding">
-                <?php if (has_custom_logo()) : ?>
-                    <?php the_custom_logo(); ?>
-                <?php else : ?>
-                    <h1 class="site-title">
-                        <a href="<?php echo esc_url(home_url('/')); ?>" rel="home">
-                            <span class="text-neon"><?php echo esc_html(get_bloginfo('name')); ?></span>
-                        </a>
-                    </h1>
-                <?php endif; ?>
-            </div>
-            
-            <?php 
-            // Add mobile menu toggle button
-            echo '<button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation menu">';
-            echo '<span class="toggle-glow"></span>';
-            echo '</button>';
-            ?>
-            
-            <nav class="main-navigation" aria-label="<?php esc_attr_e('Primary navigation', 'groktalk'); ?>">
-                <?php 
-                wp_nav_menu(array(
-                    'theme_location' => 'primary',
-                    'menu_class' => 'nav-menu',
-                    'container' => false,
-                    'fallback_cb' => 'groktalk_fallback_menu',
-                )); 
-                ?>
-            </nav>
-        </div>
-    </div>
-</header>
+/* Logo styling */
+.site-branding {
+    display: flex;
+    align-items: center;
+    margin-right: auto; /* Ensures logo stays all the way to the left */
+}
 
-<!-- Add back-to-top button -->
-<a href="#" class="back-to-top" aria-label="Scroll to top">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 19V5M5 12l7-7 7 7"/>
-    </svg>
-</a>
+.custom-logo {
+    max-height: 5rem;
+    display: block; /* Ensures proper spacing */
+}
 
-<main id="content" class="site-main">
+.site-title {
+    font-size: 2.4rem;
+    margin: 0;
+    line-height: 1;
+}
+
+.site-title a {
+    color: var(--text-white);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.site-title a:hover {
+    color: var(--electric-purple); /* Changed from green to purple */
+}
+
+.logo-text {
+    background: linear-gradient(90deg, var(--electric-purple), var(--soft-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Navigation Menu */
+.main-navigation {
+    margin-left: auto; /* Pushes navigation to the right */
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 3rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li {
+    position: relative;
+}
+
+.nav-menu li a {
+    font-size: 1.8rem;
+    font-weight: 500;
+    padding: 1rem;
+    transition: var(--transition-medium);
+    position: relative;
+    color: var(--text-white);
+    text-decoration: none;
+}
+
+.nav-menu li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--electric-purple); /* Changed to purple */
+    transition: var(--transition-medium);
+}
+
+.nav-menu li a:hover::after,
+.nav-menu li.current-menu-item a::after {
+    width: 100%;
+}
+
+.nav-menu li a:hover,
+.nav-menu li.current-menu-item a {
+    color: var(--electric-purple); /* Changed to purple */
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-white);
+    font-size: 2.4rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1000;
+    margin-left: 2rem; /* Ensures spacing from navigation */
+}
+
+.toggle-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(121, 40, 202, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-menu-toggle::before {
+    content: '☰';
+    display: inline-block;
+}
+
+.mobile-menu-toggle.active::before {
+    content: '✕';
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .main-navigation {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--cosmic-web-grey);
+        z-index: 999;
+        padding: 2rem 0;
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        border: 1px solid rgba(121, 40, 202, 0.1);
+        border-top: none;
+    }
+    
+    .main-navigation.active {
+        display: block;
+    }
+    
+    .nav-menu {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .nav-menu li {
+        width: 100%;
+    }
+    
+    .nav-menu li a {
+        display: block;
+        padding: 1.5rem 3rem;
+        width: 100%;
+    }
+    
+    .site-branding {
+        max-width: 70%; /* Ensures logo doesn't overlap with menu toggle */
+    }
+    
+    .custom-logo {
+        max-height: 4rem;
+    }
+}

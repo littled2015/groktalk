@@ -135,6 +135,98 @@
     </script>
 </footer>
 
+<style>
+/* Footer styles update - using more purples, less green */
+.site-footer {
+    background: linear-gradient(135deg, var(--cosmic-blue), var(--midnight-black));
+    padding: 6rem 0 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.4rem;
+    background: linear-gradient(90deg, var(--electric-purple), var(--soft-purple));
+}
+
+.footer-widget-area h3 {
+    color: var(--electric-purple);
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.footer-widget-area h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 4rem;
+    height: 0.3rem;
+    background: var(--electric-purple);
+    border-radius: 0.2rem;
+}
+
+.social-links a {
+    background-color: rgba(121, 40, 202, 0.15);
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: var(--electric-purple);
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(121, 40, 202, 0.7);
+}
+
+.neon-grid {
+    background-image: 
+        linear-gradient(rgba(121, 40, 202, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(121, 40, 202, 0.05) 1px, transparent 1px);
+}
+
+.disclaimer {
+    color: var(--text-cosmic-grey);
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.disclaimer a {
+    color: var(--electric-purple);
+    transition: all 0.3s ease;
+}
+
+.disclaimer a:hover {
+    color: var(--text-white);
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 0;
+    margin: 2rem 0;
+    list-style: none;
+}
+
+.footer-menu li a {
+    color: var(--text-light-grey);
+    transition: all 0.3s ease;
+}
+
+.footer-menu li a:hover {
+    color: var(--electric-purple);
+}
+</style>
+
 <?php wp_footer(); ?>
 
 </body>

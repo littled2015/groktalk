@@ -26,68 +26,25 @@ get_header();
         </div>
     </section>
 
-    <!-- About Snapshot -->
-    <section class="about-snapshot">
+    <!-- Lead Magnet (Project Readiness) -->
+    <section class="lead-magnet-section">
         <div class="container">
-            <div class="about-content">
-                <div class="about-image">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/profile.jpg" alt="@grokgirl" class="profile-img">
-                </div>
-                <div class="about-text">
-                    <blockquote>
-                        <p><?php esc_html_e( '"Curious and quirky innovator who pushes boundaries but provides practical solutions"', 'groktalk' ); ?></p>
-                    </blockquote>
-                    <p class="credentials"><?php esc_html_e( 'AI Consultant | Prompt Engineer | American Tech Advocate', 'groktalk' ); ?></p>
-                </div>
+            <div class="lead-magnet-content">
+                <h2><?php esc_html_e( 'Get Your Free AI Project Readiness Checklist', 'groktalk' ); ?></h2>
+                <p><?php esc_html_e( 'Evaluate your organization\'s AI readiness in minutes', 'groktalk' ); ?></p>
+                
+                <form class="lead-form" id="lead-form">
+                    <div class="form-group">
+                        <input type="email" placeholder="<?php esc_attr_e( 'Enter your email', 'groktalk' ); ?>" required>
+                        <button type="submit" class="btn btn-primary"><?php esc_html_e( 'Download Now', 'groktalk' ); ?></button>
+                    </div>
+                    <p class="form-note"><?php esc_html_e( 'No spam. Unsubscribe anytime.', 'groktalk' ); ?></p>
+                </form>
             </div>
         </div>
     </section>
 
-    <!-- Featured Content -->
-    <section class="featured-content">
-        <div class="container">
-            <h2 class="section-title"><?php esc_html_e( 'Latest Insights', 'groktalk' ); ?></h2>
-            
-            <?php
-            $featured_posts = new WP_Query( array(
-                'posts_per_page' => 3,
-                'post_status' => 'publish',
-                'orderby' => 'date',
-                'order' => 'DESC'
-            ) );
-            
-            if ( $featured_posts->have_posts() ) : ?>
-                <div class="featured-grid">
-                    <?php while ( $featured_posts->have_posts() ) : $featured_posts->the_post(); ?>
-                        <article class="featured-post">
-                            <?php if ( has_post_thumbnail() ) : ?>
-                                <div class="post-thumbnail">
-                                    <a href="<?php the_permalink(); ?>">
-                                        <?php the_post_thumbnail( 'medium' ); ?>
-                                    </a>
-                                </div>
-                            <?php endif; ?>
-                            
-                            <div class="post-content">
-                                <div class="post-meta">
-                                    <span class="post-category"><?php echo get_the_category_list( ', ' ); ?></span>
-                                    <span class="post-date"><?php echo get_the_date(); ?></span>
-                                </div>
-                                <h3 class="post-title">
-                                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                                </h3>
-                                <p class="post-excerpt"><?php echo wp_trim_words( get_the_excerpt(), 20 ); ?></p>
-                                <a href="<?php the_permalink(); ?>" class="read-more"><?php esc_html_e( 'Read More', 'groktalk' ); ?> →</a>
-                            </div>
-                        </article>
-                    <?php endwhile; ?>
-                    <?php wp_reset_postdata(); ?>
-                </div>
-            <?php endif; ?>
-        </div>
-    </section>
-
-    <!-- AI Knowledge Grid -->
+    <!-- AI Knowledge Grid with Latest Insights -->
     <section class="knowledge-grid-section">
         <div class="container">
             <h2 class="section-title"><?php esc_html_e( 'Explore AI Knowledge', 'groktalk' ); ?></h2>
@@ -117,7 +74,14 @@ get_header();
                     <p><?php esc_html_e( 'Honest evaluations', 'groktalk' ); ?></p>
                 </a>
                 
-                <a href="<?php echo esc_url( get_page_link( get_page_by_path( 'new-in-ai' ) ) ); ?>" class="knowledge-card large">
+                <!-- Latest Insights Card (relocated) -->
+                <a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>" class="knowledge-card">
+                    <div class="icon-wrapper">📝</div>
+                    <h3><?php esc_html_e( 'Latest Insights', 'groktalk' ); ?></h3>
+                    <p><?php esc_html_e( 'Fresh AI perspectives', 'groktalk' ); ?></p>
+                </a>
+                
+                <a href="<?php echo esc_url( get_page_link( get_page_by_path( 'new-in-ai' ) ) ); ?>" class="knowledge-card">
                     <div class="icon-wrapper">⚡</div>
                     <h3><?php esc_html_e( 'New in AI', 'groktalk' ); ?></h3>
                     <p><?php esc_html_e( 'Latest innovations and trends', 'groktalk' ); ?></p>
@@ -126,17 +90,17 @@ get_header();
         </div>
     </section>
 
-    <!-- Lead Magnet -->
-    <section class="lead-magnet-section">
+    <!-- Newsletter Signup -->
+    <section class="newsletter-section">
         <div class="container">
-            <div class="lead-magnet-content">
-                <h2><?php esc_html_e( 'Get Your Free AI Project Readiness Checklist', 'groktalk' ); ?></h2>
-                <p><?php esc_html_e( 'Evaluate your organization\'s AI readiness in minutes', 'groktalk' ); ?></p>
+            <div class="newsletter-content">
+                <h2><?php esc_html_e( 'Join the cosmic crew newsletter', 'groktalk' ); ?></h2>
+                <p><?php esc_html_e( 'Get weekly AI intelligence delivered to your inbox', 'groktalk' ); ?></p>
                 
-                <form class="lead-form" id="lead-form">
+                <form class="newsletter-form" id="newsletter-form">
                     <div class="form-group">
                         <input type="email" placeholder="<?php esc_attr_e( 'Enter your email', 'groktalk' ); ?>" required>
-                        <button type="submit" class="btn btn-primary"><?php esc_html_e( 'Download Now', 'groktalk' ); ?></button>
+                        <button type="submit" class="btn btn-primary"><?php esc_html_e( 'Subscribe', 'groktalk' ); ?></button>
                     </div>
                     <p class="form-note"><?php esc_html_e( 'No spam. Unsubscribe anytime.', 'groktalk' ); ?></p>
                 </form>
@@ -144,7 +108,7 @@ get_header();
         </div>
     </section>
 
-    <!-- Project Showcase -->
+    <!-- Project Showcase (Innovation Spotlight) -->
     <section class="project-showcase-section">
         <div class="container">
             <h2 class="section-title"><?php esc_html_e( 'Innovation Spotlight', 'groktalk' ); ?></h2>
@@ -204,6 +168,50 @@ get_header();
         </div>
     </section>
 
+    <!-- NEW: AI Tool Directory Section -->
+    <section class="tool-directory-section">
+        <div class="container">
+            <h2 class="section-title"><?php esc_html_e( 'AI Tool Directory', 'groktalk' ); ?></h2>
+            <p class="section-subtitle"><?php esc_html_e( 'Discover and submit the latest AI tools', 'groktalk' ); ?></p>
+            
+            <div class="directory-features">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3><?php esc_html_e( 'Search Tools', 'groktalk' ); ?></h3>
+                    <p><?php esc_html_e( 'Find the perfect AI tool for your specific needs', 'groktalk' ); ?></p>
+                    <a href="<?php echo esc_url( home_url( '/ai-tool-directory/' ) ); ?>" class="btn btn-outline">Browse Directory</a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3><?php esc_html_e( 'Compare Features', 'groktalk' ); ?></h3>
+                    <p><?php esc_html_e( 'Side-by-side comparisons of leading AI tools', 'groktalk' ); ?></p>
+                    <a href="<?php echo esc_url( home_url( '/ai-tool-comparison/' ) ); ?>" class="btn btn-outline">Compare Tools</a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3><?php esc_html_e( 'Submit Your Tool', 'groktalk' ); ?></h3>
+                    <p><?php esc_html_e( 'Add your AI tool to our growing directory', 'groktalk' ); ?></p>
+                    <a href="<?php echo esc_url( home_url( '/submit-ai-tool/' ) ); ?>" class="btn btn-outline">Submit Now</a>
+                </div>
+            </div>
+            
+            <div class="directory-cta">
+                <h3><?php esc_html_e( 'Featured in our directory', 'groktalk' ); ?></h3>
+                <div class="tool-logos">
+                    <!-- Tool logos would go here -->
+                    <div class="tool-logo-placeholder">Tool 1</div>
+                    <div class="tool-logo-placeholder">Tool 2</div>
+                    <div class="tool-logo-placeholder">Tool 3</div>
+                    <div class="tool-logo-placeholder">Tool 4</div>
+                    <div class="tool-logo-placeholder">Tool 5</div>
+                </div>
+                <a href="<?php echo esc_url( home_url( '/ai-tool-directory/' ) ); ?>" class="btn btn-primary"><?php esc_html_e( 'Explore All Tools', 'groktalk' ); ?></a>
+            </div>
+        </div>
+    </section>
+
     <!-- AI Job Board Preview -->
     <section class="job-board-preview">
         <div class="container">
@@ -246,24 +254,6 @@ get_header();
         </div>
     </section>
 
-    <!-- Newsletter Signup -->
-    <section class="newsletter-section">
-        <div class="container">
-            <div class="newsletter-content">
-                <h2><?php esc_html_e( 'Join the cosmic crew newsletter', 'groktalk' ); ?></h2>
-                <p><?php esc_html_e( 'Get weekly AI intelligence delivered to your inbox', 'groktalk' ); ?></p>
-                
-                <form class="newsletter-form" id="newsletter-form">
-                    <div class="form-group">
-                        <input type="email" placeholder="<?php esc_attr_e( 'Enter your email', 'groktalk' ); ?>" required>
-                        <button type="submit" class="btn btn-primary"><?php esc_html_e( 'Subscribe', 'groktalk' ); ?></button>
-                    </div>
-                    <p class="form-note"><?php esc_html_e( 'No spam. Unsubscribe anytime.', 'groktalk' ); ?></p>
-                </form>
-            </div>
-        </div>
-    </section>
-
 </main>
 
 <?php get_footer(); ?>
@@ -274,262 +264,411 @@ get_header();
     background-color: var(--midnight-black);
 }
 
-.about-snapshot {
-    padding: 5rem 0;
-    background-color: var(--cosmic-web-grey);
+/* Updated hero section with more blues/purples */
+.hero-section {
+    background: linear-gradient(135deg, var(--electric-purple), var(--cosmic-blue));
+    padding: 8rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
-.about-content {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    max-width: 900px;
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 80rem;
     margin: 0 auto;
 }
 
-.profile-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 3px solid var(--neon-green);
+.hero-title {
+    font-size: 6rem;
+    background: linear-gradient(to right, var(--text-white), var(--starlight-silver));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
 }
 
-.about-text blockquote {
-    font-size: 1.5rem;
-    font-style: italic;
-    margin-bottom: 1rem;
+.hero-subtitle {
+    font-size: 2.8rem;
+    color: var(--text-white);
+    margin-bottom: 2rem;
 }
 
-.credentials {
+.hero-description {
+    font-size: 1.8rem;
     color: var(--text-light-grey);
+    margin-bottom: 3rem;
+    max-width: 70ch;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.featured-content {
-    padding: 5rem 0;
-}
-
-.featured-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+.hero-cta {
+    display: flex;
+    justify-content: center;
     gap: 2rem;
     margin-top: 2rem;
 }
 
-.featured-post {
-    background-color: var(--cosmic-web-grey);
-    border-radius: 10px;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-}
-
-.featured-post:hover {
-    transform: translateY(-10px);
-}
-
-.post-thumbnail img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.post-content {
-    padding: 1.5rem;
-}
-
-.post-meta {
-    font-size: 0.9rem;
-    color: var(--text-light-grey);
-    margin-bottom: 1rem;
-}
-
-.post-title a {
-    color: var(--text-white);
-    transition: color 0.3s ease;
-}
-
-.post-title a:hover {
-    color: var(--neon-green);
-}
-
-.read-more {
-    color: var(--electric-purple);
-    display: inline-block;
-    margin-top: 1rem;
-}
-
+/* Knowledge Grid Section with more blues and purples */
 .knowledge-grid-section {
-    padding: 5rem 0;
-    background-color: var(--cosmic-blue);
+    padding: 6rem 0;
+    background-color: var(--cosmic-web-grey);
+    position: relative;
+    overflow: hidden;
 }
 
 .knowledge-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
+    gap: 2rem;
+    margin-top: 3rem;
 }
 
 .knowledge-card {
-    background-color: var(--cosmic-web-grey);
-    border-radius: 10px;
-    padding: 2rem;
+    background-color: var(--midnight-black);
+    border-radius: 1rem;
+    padding: 2.5rem;
     text-align: center;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(138, 43, 226, 0.2);
 }
 
 .knowledge-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--neon-green);
-}
-
-.knowledge-card.large {
-    grid-column: span 2;
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(138, 43, 226, 0.3);
+    border-color: var(--electric-purple);
 }
 
 .icon-wrapper {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
 }
 
 .knowledge-card h3 {
     color: var(--text-white);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
 }
 
 .knowledge-card p {
-    color: var(--text-light-grey);
+    color: var(--text-cosmic-grey);
+    font-size: 1.6rem;
 }
 
-.lead-magnet-section {
-    padding: 5rem 0;
-    background-color: var(--cosmic-blue);
-}
-
-.lead-magnet-content {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.lead-form .form-group {
-    display: flex;
-    gap: 1rem;
-    max-width: 600px;
-    margin: 2rem auto;
-}
-
-.lead-form input {
-    flex: 1;
-}
-
-.showcase-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.showcase-card {
-    background-color: var(--cosmic-web-grey);
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.card-header {
-    background-color: var(--cosmic-blue);
-    padding: 1.5rem;
-}
-
-.card-content {
-    padding: 1.5rem;
-}
-
-.metrics-list {
-    list-style: none;
-    margin-bottom: 1.5rem;
-}
-
-.metrics-list li {
-    color: var(--text-light-grey);
-    margin-bottom: 0.5rem;
-}
-
-.job-board-preview {
-    padding: 5rem 0;
-    background-color: var(--cosmic-blue);
-}
-
-.job-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.job-card {
-    background-color: var(--cosmic-web-grey);
-    border-radius: 10px;
-    padding: 1.5rem;
-}
-
-.job-card h3 {
-    color: var(--neon-green);
-    margin-bottom: 0.5rem;
-}
-
-.job-meta {
-    color: var(--text-light-grey);
-    margin-bottom: 1rem;
-}
-
-.job-card p {
-    color: var(--text-light-grey);
-    margin-bottom: 1rem;
-}
-
+/* Newsletter with lighter background */
 .newsletter-section {
     padding: 5rem 0;
-    background-color: var(--cosmic-blue);
+    background-color: var(--text-white);
+    color: var(--midnight-black);
 }
 
 .newsletter-content {
-    max-width: 800px;
+    max-width: 700px;
     margin: 0 auto;
     text-align: center;
+}
+
+.newsletter-content h2 {
+    font-size: 3rem;
+    color: var(--midnight-black);
+    margin-bottom: 1.5rem;
+}
+
+.newsletter-content p {
+    color: var(--cosmic-web-grey);
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
 }
 
 .newsletter-form .form-group {
     display: flex;
     gap: 1rem;
     max-width: 600px;
-    margin: 2rem auto;
+    margin: 0 auto;
 }
 
 .newsletter-form input {
     flex: 1;
+    padding: 1.5rem;
+    border: 1px solid var(--cosmic-web-grey);
+    border-radius: 0.5rem;
+    font-size: 1.6rem;
+    color: var(--midnight-black);
 }
 
-.section-title {
+.form-note {
+    margin-top: 1rem;
+    font-size: 1.4rem;
+    color: var(--cosmic-web-grey);
+}
+
+/* Lead Magnet Section */
+.lead-magnet-section {
+    padding: 6rem 0;
+    background-color: var(--midnight-black);
+    position: relative;
+}
+
+.lead-magnet-content {
+    max-width: 800px;
+    margin: 0 auto;
     text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--text-white);
+    padding: 4rem;
+    background-color: rgba(138, 43, 226, 0.1);
+    border-radius: 2rem;
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 768px) {
-    .about-content {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .lead-form .form-group,
-    .newsletter-form .form-group {
-        flex-direction: column;
-    }
-    
-    .knowledge-card.large {
-        grid-column: span 1;
-    }
+.lead-magnet-content h2 {
+    font-size: 3rem;
+    color: var(--text-white);
+    margin-bottom: 1.5rem;
 }
-</style>
+
+.lead-magnet-content p {
+    color: var(--text-light-grey);
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
+}
+
+.lead-form .form-group {
+    display: flex;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.lead-form input {
+    flex: 1;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1.6rem;
+}
+
+/* Project Showcase Section */
+.project-showcase-section {
+    padding: 6rem 0;
+    background-color: var(--cosmic-blue);
+}
+
+.showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+}
+
+.showcase-card {
+    background-color: var(--midnight-black);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.showcase-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border-color: var(--electric-purple);
+}
+
+.card-header {
+    background-color: var(--midnight-black);
+    padding: 2rem;
+    border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+}
+
+.card-header h3 {
+    color: var(--electric-purple);
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+}
+
+.card-header p {
+    color: var(--text-cosmic-grey);
+}
+
+.card-content {
+    padding: 2rem;
+}
+
+.metrics-list {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.metrics-list li {
+    color: var(--text-light-grey);
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+}
+
+/* NEW: Tool Directory Section with white background */
+.tool-directory-section {
+    padding: 6rem 0;
+    background-color: var(--text-white);
+    color: var(--midnight-black);
+}
+
+.tool-directory-section .section-title {
+    color: var(--midnight-black);
+}
+
+.tool-directory-section .section-subtitle {
+    color: var(--cosmic-web-grey);
+    font-size: 1.8rem;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.directory-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-bottom: 4rem;
+}
+
+.feature-card {
+    background-color: var(--starlight-silver);
+    border-radius: 1rem;
+    padding: 3rem;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+    color: var(--midnight-black);
+    margin-bottom: 1rem;
+    font-size: 2.2rem;
+}
+
+.feature-card p {
+    color: var(--cosmic-web-grey);
+    margin-bottom: 2rem;
+    font-size: 1.6rem;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--electric-purple);
+    color: var(--electric-purple);
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+    background-color: var(--electric-purple);
+    color: var(--text-white);
+    transform: translateY(-3px);
+}
+
+.directory-cta {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 4rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.directory-cta h3 {
+    color: var(--midnight-black);
+    margin-bottom: 2rem;
+    font-size: 2.2rem;
+}
+
+.tool-logos {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.tool-logo-placeholder {
+    width: 120px;
+    height: 60px;
+    background-color: var(--starlight-silver);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    color: var(--midnight-black);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Job Board Section */
+.job-board-preview {
+    padding: 6rem 0;
+    background-color: var(--midnight-black);
+}
+
+.job-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+}
+
+.job-card {
+    background-color: var(--cosmic-web-grey);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    border: 1px solid rgba(138, 43, 226, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--electric-purple);
+}
+
+.job-card h3 {
+    color: var(--text-white);
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.job-meta {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-cosmic-grey);
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.job-card p {
+    color: var(--text-light-grey);
+    margin-bottom: 2rem;
+    font-size: 1.6rem;
+}
+
+.job-card .btn {
+    width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 4rem;
+    }
+    
+    .hero-subtitle {
+        font-size:
