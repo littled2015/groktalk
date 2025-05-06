@@ -1,184 +1,55 @@
-/* Header Styles - Updated for improved logo positioning */
-.site-header {
-    background-color: rgba(5, 5, 16, 0.9);
-    backdrop-filter: blur(10px);
-    padding: 2rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid rgba(121, 40, 202, 0.1); /* Changed to purple */
-}
+<?php
+/**
+ * The header for our theme
+ */
+?>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="profile" href="https://gmpg.org/xfn/11">
+    <?php wp_head(); ?>
+</head>
 
-.header-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+<body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
+<div id="page" class="site">
+    <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e('Skip to content', 'groktalk'); ?></a>
 
-/* Logo styling */
-.site-branding {
-    display: flex;
-    align-items: center;
-    margin-right: auto; /* Ensures logo stays all the way to the left */
-}
+    <header id="masthead" class="site-header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="site-branding">
+                    <?php
+                    if (has_custom_logo()) {
+                        the_custom_logo();
+                    } else {
+                        ?>
+                        <h1 class="site-title">
+                            <a href="<?php echo esc_url(home_url('/')); ?>">
+                                <span class="logo-text"><?php bloginfo('name'); ?></span>
+                            </a>
+                        </h1>
+                        <?php
+                    }
+                    ?>
+                </div>
 
-.custom-logo {
-    max-height: 5rem;
-    display: block; /* Ensures proper spacing */
-}
+                <nav id="site-navigation" class="main-navigation">
+                    <?php
+                    wp_nav_menu(array(
+                        'theme_location' => 'primary',
+                        'menu_class'     => 'nav-menu',
+                        'container'      => false,
+                        'fallback_cb'    => false,
+                    ));
+                    ?>
+                </nav>
 
-.site-title {
-    font-size: 2.4rem;
-    margin: 0;
-    line-height: 1;
-}
+                <?php groktalk_add_mobile_menu(); ?>
+            </div>
+        </div>
+    </header>
 
-.site-title a {
-    color: var(--text-white);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.site-title a:hover {
-    color: var(--electric-purple); /* Changed from green to purple */
-}
-
-.logo-text {
-    background: linear-gradient(90deg, var(--electric-purple), var(--soft-purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 700;
-}
-
-/* Navigation Menu */
-.main-navigation {
-    margin-left: auto; /* Pushes navigation to the right */
-}
-
-.nav-menu {
-    list-style: none;
-    display: flex;
-    gap: 3rem;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-menu li {
-    position: relative;
-}
-
-.nav-menu li a {
-    font-size: 1.8rem;
-    font-weight: 500;
-    padding: 1rem;
-    transition: var(--transition-medium);
-    position: relative;
-    color: var(--text-white);
-    text-decoration: none;
-}
-
-.nav-menu li a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--electric-purple); /* Changed to purple */
-    transition: var(--transition-medium);
-}
-
-.nav-menu li a:hover::after,
-.nav-menu li.current-menu-item a::after {
-    width: 100%;
-}
-
-.nav-menu li a:hover,
-.nav-menu li.current-menu-item a {
-    color: var(--electric-purple); /* Changed to purple */
-}
-
-/* Mobile Menu Toggle */
-.mobile-menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: var(--text-white);
-    font-size: 2.4rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    z-index: 1000;
-    margin-left: 2rem; /* Ensures spacing from navigation */
-}
-
-.toggle-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 120%;
-    height: 120%;
-    background: radial-gradient(circle, rgba(121, 40, 202, 0.3) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.mobile-menu-toggle::before {
-    content: '☰';
-    display: inline-block;
-}
-
-.mobile-menu-toggle.active::before {
-    content: '✕';
-}
-
-/* Responsive Header */
-@media (max-width: 768px) {
-    .mobile-menu-toggle {
-        display: block;
-    }
-    
-    .main-navigation {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background-color: var(--cosmic-web-grey);
-        z-index: 999;
-        padding: 2rem 0;
-        border-bottom-left-radius: 1rem;
-        border-bottom-right-radius: 1rem;
-        border: 1px solid rgba(121, 40, 202, 0.1);
-        border-top: none;
-    }
-    
-    .main-navigation.active {
-        display: block;
-    }
-    
-    .nav-menu {
-        flex-direction: column;
-        gap: 0;
-    }
-    
-    .nav-menu li {
-        width: 100%;
-    }
-    
-    .nav-menu li a {
-        display: block;
-        padding: 1.5rem 3rem;
-        width: 100%;
-    }
-    
-    .site-branding {
-        max-width: 70%; /* Ensures logo doesn't overlap with menu toggle */
-    }
-    
-    .custom-logo {
-        max-height: 4rem;
-    }
-}
+<main id="content" class="site-content">

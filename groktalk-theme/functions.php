@@ -1,6 +1,6 @@
 <?php
 /**
- * GrokTalk functions and definitions - Updated with new CSS enqueues
+ * GrokTalk functions and definitions - Updated with CSS and JS enqueues
  */
 
 // Prevent direct access
@@ -21,11 +21,14 @@ function groktalk_enqueue_assets() {
     // Responsive CSS
     wp_enqueue_style('groktalk-responsive', get_template_directory_uri() . '/assets/css/responsive.css', array('groktalk-main'), '1.0.0');
     
-    // Header Styles - NEW
-    wp_enqueue_style('groktalk-header-styles', get_template_directory_uri() . '/assets/css/header-styles.css', array('groktalk-main'), '1.0.0');
+    // 404 Page CSS - Changed to match the updated color scheme
+    if (is_404()) {
+        wp_enqueue_style('groktalk-404', get_template_directory_uri() . '/assets/css/404.css', array('groktalk-main'), '1.0.0');
+        wp_enqueue_script('groktalk-404-js', get_template_directory_uri() . '/assets/js/404.js', array('jquery'), '1.0.0', true);
+    }
     
-    // Custom CSS for updated color scheme - NEW
-    wp_enqueue_style('groktalk-custom', get_template_directory_uri() . '/assets/css/custom.css', array('groktalk-main', 'groktalk-header-styles'), '1.0.0');
+    // Header Styles
+    wp_enqueue_style('groktalk-header-styles', get_template_directory_uri() . '/assets/css/header-styles.css', array('groktalk-main'), '1.0.0');
     
     // Main JavaScript
     wp_enqueue_script('groktalk-main', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), '1.0.0', true);
@@ -42,7 +45,7 @@ function groktalk_enqueue_assets() {
         ));
     }
     
-    // AI Tool Directory scripts - NEW
+    // AI Tool Directory scripts
     if (is_page_template('page-templates/page-tool-directory.php')) {
         wp_enqueue_script('groktalk-tool-directory', get_template_directory_uri() . '/assets/js/tool-directory.js', array('jquery'), '1.0.0', true);
     }
@@ -194,7 +197,7 @@ function groktalk_body_classes($classes) {
         $classes[] = 'innovation-spotlight-template';
     }
     
-    // NEW: Tool directory template classes
+    // Tool directory template classes
     if (is_page_template('page-templates/page-tool-directory.php')) {
         $classes[] = 'tool-directory-template';
     }
@@ -252,7 +255,7 @@ add_action('wp_ajax_groktalk_chatbot', 'groktalk_handle_chatbot_request');
 add_action('wp_ajax_nopriv_groktalk_chatbot', 'groktalk_handle_chatbot_request');
 
 /**
- * Register AI Tool custom post type - NEW
+ * Register AI Tool custom post type
  */
 function groktalk_register_ai_tool_post_type() {
     $labels = array(
@@ -294,7 +297,7 @@ function groktalk_register_ai_tool_post_type() {
 add_action('init', 'groktalk_register_ai_tool_post_type');
 
 /**
- * Register AI Tool Categories Taxonomy - NEW
+ * Register AI Tool Categories Taxonomy
  */
 function groktalk_register_tool_categories() {
     $labels = array(
@@ -417,5 +420,3 @@ function groktalk_header_style() {
     </style>
     <?php
 }
-
-// [Remaining functions unchanged...]

@@ -259,7 +259,7 @@ get_header();
 <?php get_footer(); ?>
 
 <style>
-/* Front Page Styles */
+/* Front Page Styles - Updated with more purples/blues, less green */
 .front-page {
     background-color: var(--midnight-black);
 }
@@ -333,6 +333,7 @@ get_header();
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid rgba(138, 43, 226, 0.2);
+    text-decoration: none;
 }
 
 .knowledge-card:hover {
@@ -360,7 +361,7 @@ get_header();
 /* Newsletter with lighter background */
 .newsletter-section {
     padding: 5rem 0;
-    background-color: var(--text-white);
+    background-color: var(--light-bg);
     color: var(--midnight-black);
 }
 
@@ -509,7 +510,7 @@ get_header();
 /* NEW: Tool Directory Section with white background */
 .tool-directory-section {
     padding: 6rem 0;
-    background-color: var(--text-white);
+    background-color: var(--light-bg);
     color: var(--midnight-black);
 }
 
@@ -572,6 +573,7 @@ get_header();
     border-radius: 0.5rem;
     font-weight: 600;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .btn-outline:hover {
@@ -671,4 +673,77 @@ get_header();
     }
     
     .hero-subtitle {
-        font-size:
+        font-size: 2.2rem;
+    }
+    
+    .hero-description {
+        font-size: 1.6rem;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-cta .btn {
+        width: 100%;
+    }
+    
+    .newsletter-form .form-group, 
+    .lead-form .form-group {
+        flex-direction: column;
+    }
+    
+    .newsletter-form .form-group input, 
+    .lead-form .form-group input, 
+    .newsletter-form .form-group button, 
+    .lead-form .form-group button {
+        width: 100%;
+    }
+    
+    .directory-features {
+        grid-template-columns: 1fr;
+    }
+    
+.tool-logos {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tool-logo-placeholder {
+        width: 80%;
+        max-width: 200px;
+        margin-bottom: 1rem;
+    }
+    
+    .job-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 3.2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.8rem;
+    }
+    
+    .lead-magnet-content,
+    .showcase-card,
+    .job-card,
+    .feature-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .directory-cta h3 {
+        font-size: 1.8rem;
+    }
+    
+    .knowledge-grid,
+    .showcase-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>

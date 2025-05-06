@@ -7,21 +7,40 @@ get_header();
 ?>
 
 <main id="primary" class="site-main error-404-page">
+    <div class="cosmic-background"></div>
+    <div class="neon-grid"></div>
+    <div class="stars"></div>
+    <div class="particles">
+        <div class="particle particle-1"></div>
+        <div class="particle particle-2"></div>
+        <div class="particle particle-3"></div>
+        <div class="particle particle-4"></div>
+        <div class="particle particle-5"></div>
+    </div>
+    <div class="grid-lines"></div>
+    
     <section class="error-404 not-found">
         <div class="container">
             <div class="error-content">
+                <div class="cosmic-decoration top-left"></div>
+                <div class="cosmic-decoration bottom-right"></div>
+                
                 <div class="error-animation">
                     <!-- Cosmic 404 Animation -->
                     <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="100" cy="100" r="90" fill="none" stroke="var(--neon-green)" stroke-width="2" stroke-dasharray="5,5" opacity="0.3">
+                        <circle cx="100" cy="100" r="90" fill="none" stroke="var(--electric-purple)" stroke-width="2" stroke-dasharray="5,5" opacity="0.3">
                             <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="20s" repeatCount="indefinite"/>
                         </circle>
-                        <circle cx="100" cy="100" r="70" fill="none" stroke="var(--electric-purple)" stroke-width="2" stroke-dasharray="3,3" opacity="0.5">
+                        <circle cx="100" cy="100" r="70" fill="none" stroke="var(--soft-purple)" stroke-width="2" stroke-dasharray="3,3" opacity="0.5">
                             <animateTransform attributeName="transform" type="rotate" from="360 100 100" to="0 100 100" dur="15s" repeatCount="indefinite"/>
                         </circle>
                         <text x="100" y="90" text-anchor="middle" fill="var(--text-white)" font-size="40" font-weight="bold">404</text>
-                        <text x="100" y="120" text-anchor="middle" fill="var(--neon-green)" font-size="20">Not Found</text>
+                        <text x="100" y="120" text-anchor="middle" fill="var(--electric-purple)" font-size="20">Not Found</text>
                     </svg>
+                    
+                    <div class="orbit-text">404</div>
+                    <div class="orbit-text">ERR</div>
+                    <div class="orbit-text">LOST</div>
                 </div>
                 
                 <header class="page-header">
@@ -33,10 +52,10 @@ get_header();
                     <p><?php esc_html_e( 'The page you\'re looking for doesn\'t exist. But don\'t worry, our AI can help you find what you need!', 'groktalk' ); ?></p>
                     
                     <div class="error-actions">
-                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-primary">
+                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-primary interactive-element">
                             <?php esc_html_e( 'Return to Home', 'groktalk' ); ?>
                         </a>
-                        <a href="javascript:history.back()" class="btn btn-secondary">
+                        <a href="javascript:history.back()" class="btn btn-secondary interactive-element">
                             <?php esc_html_e( 'Go Back', 'groktalk' ); ?>
                         </a>
                     </div>
@@ -58,81 +77,19 @@ get_header();
             </div>
         </div>
     </section>
+    
+    <!-- Add space shuttle element -->
+    <div class="space-shuttle">
+        <svg width="100" height="60" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+            <path d="M95,30 L80,15 C75,10 70,10 65,10 L20,10 C15,10 10,15 5,20 L0,30 L5,40 C10,45 15,50 20,50 L65,50 C70,50 75,50 80,45 L95,30 Z" fill="url(#shuttleGradient)"/>
+            <defs>
+                <linearGradient id="shuttleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#39FF14" />
+                    <stop offset="100%" stop-color="#7928CA" />
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
 </main>
 
 <?php get_footer(); ?>
-
-<style>
-.error-404-page {
-    padding: 5rem 0;
-    background: linear-gradient(135deg, var(--midnight-black), var(--cosmic-blue));
-    min-height: 70vh;
-}
-
-.error-content {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.error-animation {
-    margin-bottom: 2rem;
-}
-
-.page-title {
-    font-size: 3rem;
-    color: var(--neon-green);
-    margin-bottom: 1rem;
-}
-
-.error-message {
-    font-size: 1.25rem;
-    color: var(--text-light-grey);
-    margin-bottom: 2rem;
-}
-
-.error-actions {
-    margin: 2rem 0;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.search-section {
-    margin: 3rem 0;
-    background-color: var(--cosmic-web-grey);
-    padding: 2rem;
-    border-radius: 10px;
-}
-
-.search-section h3 {
-    color: var(--text-white);
-    margin-bottom: 1rem;
-}
-
-.suggested-links {
-    margin-top: 3rem;
-}
-
-.suggested-links h3 {
-    color: var(--text-white);
-    margin-bottom: 1rem;
-}
-
-.suggested-links ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-}
-
-.cosmic-link {
-    color: var(--electric-purple);
-    transition: all 0.3s ease;
-    text-decoration: underline;
-}
-
-.cosmic-link:hover {
-    color: var(--neon-green);
-}
-</style>
