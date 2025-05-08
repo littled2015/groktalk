@@ -22,9 +22,16 @@
     margin-right: auto; /* Ensures logo stays all the way to the left */
 }
 
+.custom-logo-link {
+    display: block;
+    width: auto;
+    height: auto;
+}
+
 .custom-logo {
     width: auto;
-    height: 5rem; /* Height control while maintaining aspect ratio */
+    max-height: 5rem; /* Control height while maintaining aspect ratio */
+    height: auto; /* Allow height to scale proportionally */
     object-fit: contain; /* Ensures the logo maintains its aspect ratio */
     display: block;
 }
@@ -181,6 +188,6 @@
     }
     
     .custom-logo {
-        height: 4rem; /* Slightly smaller on mobile */
+        max-height: 4rem; /* Slightly smaller on mobile */
     }
 }
