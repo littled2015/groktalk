@@ -1,4 +1,5 @@
-</main><!-- #content -->
+<!-- End of page content container -->
+</div><!-- #content -->
 
 <!-- Cosmic Footer -->
 <footer class="site-footer">
@@ -226,6 +227,8 @@
     color: var(--electric-purple);
 }
 </style>
+
+</div><!-- #page -->
 
 <?php wp_footer(); ?>
 

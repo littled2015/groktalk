@@ -87,18 +87,23 @@
         
         // Prevent scrolling when menu is open
         function preventScroll() {
-            $body.css('overflow', 'hidden');
-            $body.css('position', 'fixed');
-            $body.css('width', '100%');
-            $body.css('top', -$(window).scrollTop() + 'px');
-            $body.data('scrollTop', $(window).scrollTop());
+            var scrollPosition = $(window).scrollTop();
+            $body.css({
+                'overflow': 'hidden',
+                'position': 'fixed',
+                'width': '100%',
+                'top': -scrollPosition + 'px'
+            });
+            $body.data('scrollTop', scrollPosition);
         }
         
         function enableScroll() {
-            $body.css('overflow', '');
-            $body.css('position', '');
-            $body.css('width', '');
-            $body.css('top', '');
+            $body.css({
+                'overflow': '',
+                'position': '',
+                'width': '',
+                'top': ''
+            });
             
             // Restore scroll position
             if ($body.data('scrollTop') !== undefined) {
@@ -141,15 +146,17 @@
         $toggle.attr('aria-label', 'Toggle navigation menu');
         
         // Add cosmic animation to toggle button
-        $toggle.append('<span class="toggle-glow"></span>');
+        if (!$toggle.find('.toggle-glow').length) {
+            $toggle.append('<span class="toggle-glow"></span>');
+        }
         
         // Enhanced toggle animation
         $toggle.on({
             mouseenter: function() {
-                $(this).find('.toggle-glow').addClass('active');
+                $(this).find('.toggle-glow').css('opacity', '1');
             },
             mouseleave: function() {
-                $(this).find('.toggle-glow').removeClass('active');
+                $(this).find('.toggle-glow').css('opacity', '0');
             }
         });
     }

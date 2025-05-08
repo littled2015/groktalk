@@ -27,15 +27,15 @@ get_header();
                 
                 <div class="error-animation">
                     <!-- Cosmic 404 Animation -->
-                    <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="100" cy="100" r="90" fill="none" stroke="var(--electric-purple)" stroke-width="2" stroke-dasharray="5,5" opacity="0.3">
+                    <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="error-svg">
+                        <circle cx="100" cy="100" r="90" class="error-circle-outer">
                             <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="20s" repeatCount="indefinite"/>
                         </circle>
-                        <circle cx="100" cy="100" r="70" fill="none" stroke="var(--soft-purple)" stroke-width="2" stroke-dasharray="3,3" opacity="0.5">
+                        <circle cx="100" cy="100" r="70" class="error-circle-inner">
                             <animateTransform attributeName="transform" type="rotate" from="360 100 100" to="0 100 100" dur="15s" repeatCount="indefinite"/>
                         </circle>
-                        <text x="100" y="90" text-anchor="middle" fill="var(--text-white)" font-size="40" font-weight="bold">404</text>
-                        <text x="100" y="120" text-anchor="middle" fill="var(--electric-purple)" font-size="20">Not Found</text>
+                        <text x="100" y="90" text-anchor="middle" class="error-text-main">404</text>
+                        <text x="100" y="120" text-anchor="middle" class="error-text-sub">Not Found</text>
                     </svg>
                     
                     <div class="orbit-text">404</div>
@@ -80,16 +80,61 @@ get_header();
     
     <!-- Add space shuttle element -->
     <div class="space-shuttle">
-        <svg width="100" height="60" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
-            <path d="M95,30 L80,15 C75,10 70,10 65,10 L20,10 C15,10 10,15 5,20 L0,30 L5,40 C10,45 15,50 20,50 L65,50 C70,50 75,50 80,45 L95,30 Z" fill="url(#shuttleGradient)"/>
-            <defs>
-                <linearGradient id="shuttleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#39FF14" />
-                    <stop offset="100%" stop-color="#7928CA" />
-                </linearGradient>
-            </defs>
+        <svg width="100" height="60" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg" class="shuttle-svg">
+            <path d="M95,30 L80,15 C75,10 70,10 65,10 L20,10 C15,10 10,15 5,20 L0,30 L5,40 C10,45 15,50 20,50 L65,50 C70,50 75,50 80,45 L95,30 Z" class="shuttle-path"/>
         </svg>
     </div>
 </main>
+
+<!-- Add custom styles specifically for 404 SVG elements -->
+<style>
+/* SVG Styles for the 404 page that don't rely on CSS variables directly in inline attributes */
+.error-svg .error-circle-outer {
+    fill: none;
+    stroke: #7928CA; /* electric-purple */
+    stroke-width: 2;
+    stroke-dasharray: 5,5;
+    opacity: 0.3;
+}
+
+.error-svg .error-circle-inner {
+    fill: none;
+    stroke: #9046CF; /* soft-purple */
+    stroke-width: 2;
+    stroke-dasharray: 3,3;
+    opacity: 0.5;
+}
+
+.error-svg .error-text-main {
+    fill: #FFFFFF; /* text-white */
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.error-svg .error-text-sub {
+    fill: #7928CA; /* electric-purple */
+    font-size: 20px;
+}
+
+.shuttle-svg .shuttle-path {
+    fill: url(#shuttleGradient);
+}
+
+/* Add the gradient definition inside a new defs element */
+.shuttle-svg {
+    position: relative;
+}
+
+.shuttle-svg:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg, #39FF14, #7928CA);
+    clip-path: path('M95,30 L80,15 C75,10 70,10 65,10 L20,10 C15,10 10,15 5,20 L0,30 L5,40 C10,45 15,50 20,50 L65,50 C70,50 75,50 80,45 L95,30 Z');
+}
+</style>
 
 <?php get_footer(); ?>

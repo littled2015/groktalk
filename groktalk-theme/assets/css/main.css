@@ -2,7 +2,7 @@
 :root {
     /* Primary Colors - Adjusted */
     --cosmic-blue: #0c0e30;
-    --neon-green: #39FF14; /* Keeping but using less frequently */
+    --neon-green: #39FF14; /* Kept but used less frequently */
     --starlight-silver: #F0F0F5; /* Lightened for contrast areas */
     --midnight-black: #050510;
     --cosmic-web-grey: #121225;
@@ -46,7 +46,7 @@
     
     /* Glow Effects - Adjusted */
     --neon-glow: 0 0 10px rgba(57, 255, 20, 0.7);
-    --purple-glow: 0 0 15px rgba(138, 43, 226, 0.7); /* Promoted glow effect */
+    --purple-glow: 0 0 15px rgba(121, 40, 202, 0.7); /* Promoted glow effect */
 }
 
 /* Buttons - Modified to use more purples, less green */

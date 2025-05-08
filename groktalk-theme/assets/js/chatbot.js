@@ -100,6 +100,226 @@
             // Append to parent container or body
             const $parent = $startChatbot.parent();
             $parent.append(chatHTML);
+            
+            // Add custom styling with purple accents
+            const customStyle = `
+                <style>
+                    .chatbot-interface {
+                        position: fixed;
+                        bottom: 20px;
+                        right: 20px;
+                        width: 350px;
+                        max-height: 500px;
+                        display: flex;
+                        flex-direction: column;
+                        border-radius: 12px;
+                        overflow: hidden;
+                        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+                        z-index: 1000;
+                        background-color: var(--cosmic-web-grey);
+                        border: 1px solid rgba(121, 40, 202, 0.3);
+                    }
+                    
+                    .chat-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 15px;
+                        background-color: rgba(121, 40, 202, 0.2);
+                        border-bottom: 1px solid rgba(121, 40, 202, 0.3);
+                    }
+                    
+                    .bot-avatar {
+                        width: 36px;
+                        height: 36px;
+                        background-color: var(--electric-purple);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-right: 10px;
+                    }
+                    
+                    .bot-name {
+                        color: var(--text-white);
+                        font-weight: 600;
+                    }
+                    
+                    .bot-identity {
+                        display: flex;
+                        align-items: center;
+                    }
+                    
+                    .chatbot-close {
+                        background: none;
+                        border: none;
+                        color: var(--text-white);
+                        cursor: pointer;
+                        padding: 5px;
+                    }
+                    
+                    .chat-messages {
+                        padding: 15px;
+                        overflow-y: auto;
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 15px;
+                        max-height: 350px;
+                    }
+                    
+                    .message {
+                        display: flex;
+                        align-items: flex-start;
+                        max-width: 80%;
+                    }
+                    
+                    .user-message {
+                        margin-left: auto;
+                        flex-direction: row-reverse;
+                    }
+                    
+                    .message-avatar {
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 0 8px;
+                    }
+                    
+                    .bot-icon {
+                        background-color: var(--electric-purple);
+                        color: var(--text-white);
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 50%;
+                    }
+                    
+                    .user-icon {
+                        background-color: var(--text-cosmic-grey);
+                        color: var(--text-white);
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 50%;
+                    }
+                    
+                    .message-bubble {
+                        padding: 10px 15px;
+                        border-radius: 18px;
+                        background-color: rgba(121, 40, 202, 0.2);
+                        color: var(--text-white);
+                    }
+                    
+                    .user-message .message-bubble {
+                        background-color: rgba(121, 40, 202, 0.4);
+                        color: var(--text-white);
+                        border-bottom-right-radius: 4px;
+                    }
+                    
+                    .bot-message .message-bubble {
+                        background-color: rgba(18, 18, 37, 0.7);
+                        color: var(--text-light-grey);
+                        border-bottom-left-radius: 4px;
+                    }
+                    
+                    .message-time {
+                        font-size: 0.7rem;
+                        color: var(--text-cosmic-grey);
+                        margin-top: 5px;
+                        text-align: right;
+                    }
+                    
+                    .chat-input {
+                        display: flex;
+                        border-top: 1px solid rgba(121, 40, 202, 0.3);
+                        padding: 10px;
+                    }
+                    
+                    .chat-input input {
+                        flex: 1;
+                        padding: 10px 15px;
+                        border: 1px solid rgba(121, 40, 202, 0.3);
+                        border-radius: 20px;
+                        background-color: rgba(5, 5, 16, 0.5);
+                        color: var(--text-white);
+                        margin-right: 10px;
+                    }
+                    
+                    .chat-input input:focus {
+                        outline: none;
+                        border-color: var(--electric-purple);
+                        box-shadow: 0 0 0 2px rgba(121, 40, 202, 0.2);
+                    }
+                    
+                    .chat-input button {
+                        background-color: var(--electric-purple);
+                        color: var(--text-white);
+                        border: none;
+                        border-radius: 20px;
+                        padding: 10px 15px;
+                        cursor: pointer;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                    }
+                    
+                    .chat-input button:hover {
+                        background-color: var(--soft-purple);
+                        transform: translateY(-2px);
+                    }
+                    
+                    .typing-indicator {
+                        display: flex;
+                        align-items: center;
+                    }
+                    
+                    .dots {
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                        padding: 10px 15px;
+                    }
+                    
+                    .dots span {
+                        width: 8px;
+                        height: 8px;
+                        background-color: var(--electric-purple);
+                        border-radius: 50%;
+                        opacity: 0.6;
+                        animation: typing 1.5s infinite;
+                    }
+                    
+                    .dots span:nth-child(2) {
+                        animation-delay: 0.2s;
+                    }
+                    
+                    .dots span:nth-child(3) {
+                        animation-delay: 0.4s;
+                    }
+                    
+                    @keyframes typing {
+                        0% {
+                            transform: translateY(0);
+                        }
+                        50% {
+                            transform: translateY(-8px);
+                        }
+                        100% {
+                            transform: translateY(0);
+                        }
+                    }
+                </style>
+            `;
+            
+                            // Append custom style to head
+            $('head').append(customStyle);
         }
 
         // Send message function
@@ -290,4 +510,3 @@
             return div.innerHTML;
         }
     }
-})(jQuery);

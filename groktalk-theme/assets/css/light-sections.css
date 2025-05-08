@@ -1,0 +1,189 @@
+/**
+ * Light Section Styles for GrokTalk Theme
+ * This file contains styles for light background sections
+ */
+
+/* Light Section Base */
+.light-section {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    position: relative;
+    padding: 6rem 0;
+}
+
+.light-section .section-title {
+    color: var(--midnight-black);
+}
+
+.light-section .section-title::after {
+    background: var(--glow-gradient);
+}
+
+.light-section .section-subtitle {
+    color: var(--cosmic-web-grey);
+}
+
+.light-section p {
+    color: var(--text-dark);
+}
+
+/* Light Cards */
+.light-section .content-card {
+    background-color: var(--text-white);
+    border: 1px solid rgba(121, 40, 202, 0.1);
+    box-shadow: var(--shadow-purple);
+}
+
+.light-section .content-card h3 {
+    color: var(--electric-purple);
+}
+
+.light-section .content-card p {
+    color: var(--cosmic-web-grey);
+}
+
+/* Light Form Elements */
+.light-section input[type="text"],
+.light-section input[type="email"],
+.light-section input[type="url"],
+.light-section input[type="number"],
+.light-section textarea,
+.light-section select {
+    background-color: var(--text-white);
+    border: 1px solid rgba(121, 40, 202, 0.2);
+    color: var(--text-dark);
+}
+
+.light-section input[type="text"]:focus,
+.light-section input[type="email"]:focus,
+.light-section input[type="url"]:focus,
+.light-section input[type="number"]:focus,
+.light-section textarea:focus,
+.light-section select:focus {
+    border-color: var(--electric-purple);
+    box-shadow: 0 0 0 3px rgba(121, 40, 202, 0.1);
+}
+
+.light-section label {
+    color: var(--text-dark);
+}
+
+/* Light Section Buttons */
+.light-section .btn-primary {
+    background-color: var(--electric-purple);
+    color: var(--text-white);
+}
+
+.light-section .btn-secondary {
+    border-color: var(--electric-purple);
+    color: var(--electric-purple);
+}
+
+.light-section .btn-secondary:hover {
+    background-color: var(--electric-purple);
+    color: var(--text-white);
+}
+
+.light-section .btn-outline {
+    border: 2px solid var(--electric-purple);
+    color: var(--electric-purple);
+    background-color: transparent;
+}
+
+.light-section .btn-outline:hover {
+    background-color: var(--electric-purple);
+    color: var(--text-white);
+}
+
+/* Light Section UI Elements */
+.light-section .tag-link,
+.light-section .category-pill,
+.light-section .filter-tag {
+    background-color: rgba(121, 40, 202, 0.1);
+    color: var(--electric-purple);
+}
+
+.light-section .tag-link:hover,
+.light-section .category-pill:hover,
+.light-section .filter-tag:hover,
+.light-section .tag-link.active,
+.light-section .category-pill.active,
+.light-section .filter-tag.active {
+    background-color: var(--electric-purple);
+    color: var(--text-white);
+}
+
+/* Light Section Cards and Grids */
+.light-section .tool-card,
+.light-section .pricing-card,
+.light-section .feature-card {
+    background-color: var(--text-white);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(121, 40, 202, 0.1);
+}
+
+.light-section .tool-card:hover,
+.light-section .pricing-card:hover,
+.light-section .feature-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--electric-purple);
+    transform: translateY(-5px);
+}
+
+/* Light Section Decorative Elements */
+.light-section .neon-grid {
+    background-image: 
+        linear-gradient(rgba(121, 40, 202, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(121, 40, 202, 0.04) 1px, transparent 1px);
+}
+
+/* Light Theme Full Style */
+body.light-theme {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+}
+
+.light-theme .site-header {
+    background-color: rgba(247, 247, 255, 0.9);
+    border-bottom: 1px solid rgba(121, 40, 202, 0.1);
+}
+
+.light-theme .site-title a,
+.light-theme .nav-menu li a {
+    color: var(--text-dark);
+}
+
+.light-theme .nav-menu li a:hover,
+.light-theme .nav-menu li.current-menu-item a {
+    color: var(--electric-purple);
+}
+
+.light-theme .mobile-menu-toggle {
+    color: var(--text-dark);
+}
+
+.light-theme .site-footer {
+    background: linear-gradient(135deg, var(--light-bg), #e8e8ff);
+    color: var(--text-dark);
+}
+
+.light-theme .site-footer::before {
+    background: var(--glow-gradient);
+}
+
+.light-theme .footer-widget-area h3 {
+    color: var(--electric-purple);
+}
+
+.light-theme .disclaimer {
+    color: var(--cosmic-web-grey);
+}
+
+/* Light Theme Responsive Adjustments */
+@media (max-width: 768px) {
+    .light-theme .main-navigation {
+        background-color: rgba(247, 247, 255, 0.95);
+        border: 1px solid rgba(121, 40, 202, 0.1);
+        border-top: none;
+    }
+}

@@ -86,6 +86,43 @@
         // Create code rain container if it doesn't exist
         if (!$('.code-rain').length) {
             $errorPage.prepend('<div class="code-rain"></div>');
+            
+            // Add CSS for code rain container
+            const cssStyle = `
+                <style>
+                    .code-rain {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        z-index: 3;
+                        pointer-events: none;
+                    }
+                    
+                    .code-column {
+                        position: absolute;
+                        top: -100px;
+                        color: rgba(121, 40, 202, 0.6);
+                        font-family: monospace;
+                        font-size: 16px;
+                        font-weight: bold;
+                        text-shadow: 0 0 5px rgba(121, 40, 202, 0.8);
+                        animation: codeRain linear infinite;
+                    }
+                    
+                    @keyframes codeRain {
+                        0% {
+                            transform: translateY(-100%);
+                        }
+                        100% {
+                            transform: translateY(100vh);
+                        }
+                    }
+                </style>
+            `;
+            
+            $('head').append(cssStyle);
         }
         
         const $codeRain = $('.code-rain');
@@ -119,13 +156,85 @@
         
         if (!$errorAnimation.length) return;
         
+        // Add CSS for orbiting elements if not present
+        if (!$('.orbit-styles').length) {
+            const orbitStyles = `
+                <style class="orbit-styles">
+                    .orbit-text {
+                        position: absolute;
+                        font-weight: bold;
+                        color: rgba(121, 40, 202, 0.7);
+                        text-shadow: 0 0 8px rgba(121, 40, 202, 0.5);
+                        animation: orbit linear infinite;
+                        font-size: 24px;
+                    }
+                    
+                    .orbit-text:nth-child(2) {
+                        animation-duration: 12s;
+                        animation-delay: -4s;
+                    }
+                    
+                    .orbit-text:nth-child(3) {
+                        animation-duration: 16s;
+                        animation-delay: -8s;
+                    }
+                    
+                    .orbit-text:nth-child(4) {
+                        animation-duration: 20s;
+                        animation-delay: -12s;
+                    }
+                    
+                    @keyframes orbit {
+                        0% {
+                            transform: rotate(0deg) translateX(120px) rotate(0deg);
+                        }
+                        100% {
+                            transform: rotate(360deg) translateX(120px) rotate(-360deg);
+                        }
+                    }
+                </style>
+            `;
+            
+            $('head').append(orbitStyles);
+        }
+        
         // Orbit texts are already added in the HTML structure
         // This function remains in case we need to create more dynamic orbiting elements
     }
     
     function addSpaceShuttle() {
         // Space shuttle is already added in the HTML structure
-        // This function remains in case we need to adjust the space shuttle dynamically
+        // Add animation for space shuttle
+        const shuttleAnimation = `
+            <style class="shuttle-styles">
+                .space-shuttle {
+                    position: absolute;
+                    bottom: 100px;
+                    left: -100px;
+                    animation: shuttleFly 20s linear infinite;
+                    filter: drop-shadow(0 0 10px rgba(121, 40, 202, 0.6));
+                }
+                
+                @keyframes shuttleFly {
+                    0% {
+                        transform: translateX(-100px) translateY(0) rotate(10deg);
+                    }
+                    50% {
+                        transform: translateX(calc(100vw + 100px)) translateY(-100px) rotate(10deg);
+                    }
+                    50.01% {
+                        transform: translateX(calc(100vw + 100px)) translateY(100px) rotate(-190deg);
+                    }
+                    100% {
+                        transform: translateX(-100px) translateY(0) rotate(-190deg);
+                    }
+                }
+            </style>
+        `;
+        
+        if (!$('.shuttle-styles').length) {
+            $('head').append(shuttleAnimation);
+        }
     }
     
     function addInteractiveElements() {
