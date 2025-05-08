@@ -1,64 +1,49 @@
-/* Header Styles - Updated for centered 400x400 logo */
+/* Header Styles - Updated for improved logo positioning */
 .site-header {
     background-color: rgba(5, 5, 16, 0.9);
     backdrop-filter: blur(10px);
-    padding: 0;
+    padding: 2rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(121, 40, 202, 0.1);
+    border-bottom: 1px solid rgba(121, 40, 202, 0.1); /* Changed to purple */
 }
 
 .header-inner {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
 }
 
-/* Logo styling - Updated for centered 400x400 logo */
+/* Logo styling - FIXED */
 .site-branding {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    width: 100%;
-}
-
-.custom-logo-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 400px;
-    height: 400px;
-    margin: 0 auto;
-    padding: 1rem;
+    margin-right: auto; /* Ensures logo stays all the way to the left */
 }
 
 .custom-logo {
-    max-width: 100%;
-    max-height: 100%;
-    height: auto;
     width: auto;
+    height: 5rem; /* Height control while maintaining aspect ratio */
+    object-fit: contain; /* Ensures the logo maintains its aspect ratio */
     display: block;
 }
 
 .site-title {
     font-size: 2.4rem;
-    margin: 0.5rem 0 0;
+    margin: 0;
     line-height: 1;
-    text-align: center;
 }
 
 .site-title a {
     color: var(--text-white);
-    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .site-title a:hover {
-    color: var(--electric-purple);
+    color: var(--electric-purple); /* Changed from green to purple */
 }
 
 .logo-text {
@@ -69,18 +54,14 @@
     font-weight: 700;
 }
 
-/* Navigation Menu - Added to top */
+/* Navigation Menu */
 .main-navigation {
-    width: 100%;
-    text-align: center;
-    border-top: 1px solid rgba(121, 40, 202, 0.1);
-    padding-top: 1rem;
+    margin-left: auto; /* Pushes navigation to the right */
 }
 
 .nav-menu {
     list-style: none;
     display: flex;
-    justify-content: center;
     gap: 3rem;
     margin: 0;
     padding: 0;
@@ -107,7 +88,7 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--electric-purple);
+    background: var(--electric-purple); /* Changed to purple */
     transition: var(--transition-medium);
 }
 
@@ -118,22 +99,7 @@
 
 .nav-menu li a:hover,
 .nav-menu li.current-menu-item a {
-    color: var(--electric-purple);
-}
-
-/* Theme toggle styling */
-.theme-toggle-item {
-    margin-left: 1rem;
-}
-
-.theme-toggle {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.toggle-icon {
-    font-size: 1.6rem;
+    color: var(--electric-purple); /* Changed to purple */
 }
 
 /* Mobile Menu Toggle */
@@ -146,9 +112,7 @@
     cursor: pointer;
     padding: 0.5rem;
     z-index: 1000;
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    margin-left: 2rem; /* Ensures spacing from navigation */
 }
 
 .toggle-glow {
@@ -174,17 +138,8 @@
 
 /* Responsive Header */
 @media (max-width: 768px) {
-    .header-inner {
-        padding: 1rem;
-    }
-    
     .mobile-menu-toggle {
         display: block;
-    }
-    
-    .custom-logo-link {
-        width: 200px;
-        height: 200px;
     }
     
     .main-navigation {
@@ -222,23 +177,10 @@
     }
     
     .site-branding {
-        max-width: 90%;
-        margin-right: 0;
+        max-width: 70%; /* Ensures logo doesn't overlap with menu toggle */
     }
     
-    .toggle-text {
-        display: none; /* Hide toggle text on mobile */
-    }
-}
-
-/* Extra small devices */
-@media (max-width: 480px) {
-    .site-title {
-        font-size: 2rem;
-    }
-    
-    .custom-logo-link {
-        width: 150px;
-        height: 150px;
+    .custom-logo {
+        height: 4rem; /* Slightly smaller on mobile */
     }
 }
