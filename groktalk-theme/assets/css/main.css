@@ -387,3 +387,51 @@ html {
 
 .hidden { display: none; }
 .visible { display: block; }
+
+/* Additional styles to ensure proper content spacing with fixed header and logo */
+
+/* Add padding to site-content to prevent content from being hidden under the fixed header */
+.site-content {
+    padding-top: 80px; /* Match the height of the header */
+    position: relative;
+}
+
+/* Ensure z-index of content stays below the fixed elements */
+.site-main {
+    position: relative;
+    z-index: 1; /* Lower than header and logo */
+}
+
+/* Special handling for hero sections to maintain proper layering */
+.hero-section {
+    position: relative;
+    z-index: 1; /* Lower than header and logo */
+}
+
+/* Ensure proper admin bar spacing on front-end */
+.admin-bar .site-content {
+    padding-top: 112px; /* 80px + 32px admin bar */
+}
+
+@media screen and (max-width: 782px) {
+    .admin-bar .site-content {
+        padding-top: 126px; /* 80px + 46px mobile admin bar */
+    }
+}
+
+/* Explicit styles for front page hero section */
+.front-page .hero-section {
+    /* Specifically target front page hero for precise positioning */
+    margin-top: -80px; /* Negative margin to counter the site-content padding */
+    padding-top: 140px !important; /* Extra padding to ensure content isn't hidden */
+}
+
+.admin-bar .front-page .hero-section {
+    margin-top: -112px; /* For admin bar on desktop */
+}
+
+@media screen and (max-width: 782px) {
+    .admin-bar .front-page .hero-section {
+        margin-top: -126px; /* For admin bar on mobile */
+    }
+}

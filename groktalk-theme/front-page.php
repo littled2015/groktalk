@@ -264,13 +264,14 @@ get_header();
     background-color: var(--midnight-black);
 }
 
-/* Updated hero section with more blues/purples */
+/* Updated hero section with fixed logo support */
 .hero-section {
     background: linear-gradient(135deg, var(--electric-purple), var(--cosmic-blue));
-    padding: 8rem 0;
+    padding: 16rem 0 8rem; /* Increased top padding to accommodate fixed header/logo */
     text-align: center;
     position: relative;
     overflow: hidden;
+    margin-top: -80px; /* Negative margin to counter the site-content padding */
 }
 
 .hero-content {
@@ -309,6 +310,11 @@ get_header();
     justify-content: center;
     gap: 2rem;
     margin-top: 2rem;
+}
+
+/* Admin bar adjustments */
+.admin-bar .hero-section {
+    margin-top: -112px; /* For admin bar on desktop */
 }
 
 /* Knowledge Grid Section with more blues and purples */
@@ -667,7 +673,17 @@ get_header();
 }
 
 /* Responsive adjustments */
+@media (max-width: 782px) {
+    .admin-bar .hero-section {
+        margin-top: -126px; /* For admin bar on mobile */
+    }
+}
+
 @media (max-width: 768px) {
+    .hero-section {
+        padding: 12rem 0 6rem; /* Adjusted for mobile */
+    }
+    
     .hero-title {
         font-size: 4rem;
     }
@@ -705,7 +721,7 @@ get_header();
         grid-template-columns: 1fr;
     }
     
-.tool-logos {
+    .tool-logos {
         flex-direction: column;
         align-items: center;
     }
@@ -722,6 +738,10 @@ get_header();
 }
 
 @media (max-width: 480px) {
+    .hero-section {
+        padding: 10rem 0 5rem; /* Further reduced for smaller screens */
+    }
+    
     .hero-title {
         font-size: 3.2rem;
     }
