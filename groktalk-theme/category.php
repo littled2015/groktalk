@@ -4,52 +4,32 @@
  */
 
 get_header();
-
-// Get current category
-$category = get_queried_object();
 ?>
 
 <main id="primary" class="site-main category-archive">
-    <section class="hero-section">
-        <div class="hero-overlay"></div>
+    <header class="archive-header">
         <div class="container">
-            <h1><?php single_cat_title(); ?></h1>
-            <?php if ( category_description() ) : ?>
-                <p><?php echo category_description(); ?></p>
-            <?php else: ?>
-                <p>Stay ahead with cutting-edge insights in <?php single_cat_title(); ?></p>
-            <?php endif; ?>
-            
-            <div class="search-filter">
-                <form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
-                    <input type="text" placeholder="Search <?php single_cat_title(); ?>..." name="s" class="search-input">
-                    <input type="hidden" name="cat" value="<?php echo get_queried_object_id(); ?>">
-                    <button type="submit" class="btn btn-primary">🔍 Search</button>
-                </form>
-            </div>
-            
-            <div class="category-tags">
-                <?php
-                // Get categories excluding current one
-                $current_cat_id = get_queried_object_id();
-                $categories = get_categories(array(
-                    'exclude' => $current_cat_id,
-                    'number' => 5,
-                    'orderby' => 'count',
-                    'order' => 'DESC',
-                ));
+            <div class="category-hero">
+                <span class="category-label"><?php esc_html_e( 'Category', 'groktalk' ); ?></span>
+                <h1 class="archive-title"><?php single_cat_title(); ?></h1>
                 
-                // Always show "Latest" tag first
-                echo '<a href="' . esc_url(get_category_link($current_cat_id)) . '" class="tag active">Latest</a>';
+                <?php if ( category_description() ) : ?>
+                    <div class="archive-description">
+                        <?php echo category_description(); ?>
+                    </div>
+                <?php endif; ?>
                 
-                // Display other category tags
-                foreach ($categories as $category) {
-                    echo '<a href="' . esc_url(get_category_link($category->term_id)) . '" class="tag">' . esc_html($category->name) . '</a>';
-                }
-                ?>
+                <div class="category-meta">
+                    <span class="post-count">
+                        <?php 
+                        $category = get_queried_object();
+                        printf( esc_html( _n( '%s Article', '%s Articles', $category->count, 'groktalk' ) ), number_format_i18n( $category->count ) );
+                        ?>
+                    </span>
+                </div>
             </div>
         </div>
-    </section>
+    </header>
 
     <section class="archive-content">
         <div class="container">
@@ -108,86 +88,17 @@ $category = get_queried_object();
                     <?php endwhile; ?>
                 </div>
                 
-                <div class="pagination-container">
-                    <?php
-                    // Custom pagination with cosmic styling
-                    $total_pages = $wp_query->max_num_pages;
-                    
-                    if ($total_pages > 1) {
-                        $current_page = max(1, get_query_var('paged'));
-                        
-                        echo '<div class="cosmic-pagination">';
-                        
-                        // Previous page
-                        if ($current_page > 1) {
-                            echo '<a href="' . get_pagenum_link($current_page - 1) . '" class="page-btn prev-page">';
-                            echo '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
-                            echo '<line x1="19" y1="12" x2="5" y2="12"></line>';
-                            echo '<polyline points="12 19 5 12 12 5"></polyline>';
-                            echo '</svg>';
-                            echo '<span>' . esc_html__('Newer Posts', 'groktalk') . '</span>';
-                            echo '</a>';
-                        }
-                        
-                        // Number pagination
-                        echo '<div class="page-numbers-container">';
-                        
-                        // First page link if not near the beginning
-                        if ($current_page >= 4) {
-                            echo '<a href="' . get_pagenum_link(1) . '" class="page-number">1</a>';
-                            
-                            // Jump back arrow instead of ellipsis
-                            if ($current_page > 4) {
-                                echo '<a href="' . get_pagenum_link($current_page - 3) . '" class="page-arrow jump-arrow">';
-                                echo '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
-                                echo '<line x1="17" y1="12" x2="7" y2="12"></line>';
-                                echo '<polyline points="12 17 7 12 12 7"></polyline>';
-                                echo '</svg>';
-                                echo '</a>';
-                            }
-                        }
-                        
-                        // Page numbers
-                        for ($i = max(1, $current_page - 2); $i <= min($current_page + 2, $total_pages); $i++) {
-                            if ($i == $current_page) {
-                                echo '<span class="page-number current">' . $i . '</span>';
-                            } else {
-                                echo '<a href="' . get_pagenum_link($i) . '" class="page-number">' . $i . '</a>';
-                            }
-                        }
-                        
-                        // Last page link if not near the end
-                        if ($current_page <= ($total_pages - 3)) {
-                            // Jump forward arrow instead of ellipsis
-                            if ($current_page < ($total_pages - 3)) {
-                                echo '<a href="' . get_pagenum_link($current_page + 3) . '" class="page-arrow jump-arrow">';
-                                echo '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
-                                echo '<line x1="7" y1="12" x2="17" y2="12"></line>';
-                                echo '<polyline points="12 7 17 12 12 17"></polyline>';
-                                echo '</svg>';
-                                echo '</a>';
-                            }
-                            
-                            echo '<a href="' . get_pagenum_link($total_pages) . '" class="page-number">' . $total_pages . '</a>';
-                        }
-                        
-                        echo '</div>'; // End .page-numbers-container
-                        
-                        // Next page
-                        if ($current_page < $total_pages) {
-                            echo '<a href="' . get_pagenum_link($current_page + 1) . '" class="page-btn next-page">';
-                            echo '<span>' . esc_html__('Older Posts', 'groktalk') . '</span>';
-                            echo '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
-                            echo '<line x1="5" y1="12" x2="19" y2="12"></line>';
-                            echo '<polyline points="12 5 19 12 12 19"></polyline>';
-                            echo '</svg>';
-                            echo '</a>';
-                        }
-                        
-                        echo '</div>'; // End .cosmic-pagination
-                    }
-                    ?>
-                </div>
+                <?php the_posts_pagination( array(
+                    'mid_size' => 2,
+                    'prev_text' => sprintf(
+                        '<span class="nav-prev-text">%s</span>',
+                        esc_html__( 'Newer Posts', 'groktalk' )
+                    ),
+                    'next_text' => sprintf(
+                        '<span class="nav-next-text">%s</span>',
+                        esc_html__( 'Older Posts', 'groktalk' )
+                    ),
+                ) ); ?>
                 
             <?php else : ?>
                 <div class="no-results">
@@ -204,120 +115,46 @@ $category = get_queried_object();
 <?php get_footer(); ?>
 
 <style>
-/* Hero Section Styles - Matching AI Intelligence Hub */
-.hero-section {
-    position: relative;
-    background: linear-gradient(135deg, var(--cosmic-blue), var(--midnight-black));
-    padding: 5rem 0 3rem;
-    text-align: center;
-    color: var(--text-white);
-    overflow: hidden;
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(12, 30, 77, 0.7), rgba(5, 5, 16, 0.9));
-    z-index: 1;
-}
-
-.hero-section .container {
-    position: relative;
-    z-index: 2;
-}
-
-.hero-section h1 {
-    font-size: 4.5rem;
-    color: var(--text-white);
-    margin-bottom: 1.5rem;
-    background: linear-gradient(to right, var(--neon-green), var(--electric-purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
-}
-
-.hero-section p {
-    font-size: 2rem;
-    color: var(--text-light-grey);
-    margin-bottom: 3rem;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.search-filter {
-    max-width: 600px;
-    margin: 0 auto 2.5rem;
-}
-
-.search-form {
-    display: flex;
-}
-
-.search-input {
-    flex: 1;
-    padding: 1.2rem 2rem;
-    border: none;
-    border-radius: 3rem 0 0 3rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--text-white);
-    font-size: 1.6rem;
-}
-
-.search-input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.search-filter .btn {
-    padding: 1.2rem 2rem;
-    border: none;
-    border-radius: 0 3rem 3rem 0;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1.6rem;
-}
-
-.search-filter .btn-primary {
-    background-color: var(--neon-green);
-    color: var(--midnight-black);
-}
-
-.category-tags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.tag {
-    display: inline-block;
-    padding: 0.8rem 1.5rem;
-    border-radius: 3rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--text-white);
-    font-size: 1.4rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.tag:hover, .tag.active {
-    background-color: var(--neon-green);
-    color: var(--midnight-black);
-    transform: translateY(-2px);
-}
-
-/* Hide original archive header */
-.archive-header {
-    display: none;
-}
-
-/* Keep existing post grid styles */
 .category-archive {
     background-color: var(--midnight-black);
+}
+
+.archive-header {
+    background: linear-gradient(135deg, var(--cosmic-blue), var(--midnight-black));
+    padding: 5rem 0 3rem;
+}
+
+.category-hero {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.category-label {
+    display: inline-block;
+    background-color: var(--neon-green);
+    color: var(--midnight-black);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.archive-title {
+    font-size: 3rem;
+    color: var(--text-white);
+    margin-bottom: 1rem;
+}
+
+.archive-description {
+    color: var(--text-light-grey);
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+}
+
+.category-meta {
+    color: var(--starlight-silver);
 }
 
 .archive-content {
@@ -420,171 +257,58 @@ $category = get_queried_object();
     color: var(--neon-green);
 }
 
-/* Enhanced Pagination Styles */
-.pagination-container {
-    margin-top: 5rem;
-    margin-bottom: 3rem;
-    text-align: center;
-}
-
-.cosmic-pagination {
+.pagination {
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 1rem;
+    margin-top: 3rem;
 }
 
-.page-numbers-container {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.page-number {
+.page-numbers {
     display: inline-flex;
-    justify-content: center;
     align-items: center;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.1);
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: var(--cosmic-web-grey);
     color: var(--text-white);
-    font-size: 1.6rem;
-    text-decoration: none;
     transition: all 0.3s ease;
 }
 
-.page-number.current {
+.page-numbers:hover,
+.page-numbers.current {
     background-color: var(--neon-green);
     color: var(--midnight-black);
-    font-weight: 600;
-    box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
-    position: relative;
 }
 
-.page-number:not(.current):hover {
-    background-color: var(--electric-purple);
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(121, 40, 202, 0.4);
+.page-numbers.prev,
+.page-numbers.next {
+    width: auto;
+    padding: 0 1rem;
 }
 
-/* Arrow Buttons in Pagination */
-.page-arrow {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 3.6rem;
-    height: 3.6rem;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--text-white);
-    text-decoration: none;
-    transition: all 0.3s ease;
+.no-results {
+    text-align: center;
+    padding: 5rem 0;
 }
 
-.page-arrow.jump-arrow {
-    background-color: rgba(121, 40, 202, 0.2);
-}
-
-.page-arrow:hover {
-    background-color: var(--electric-purple);
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 5px 15px rgba(121, 40, 202, 0.4);
-}
-
-.page-arrow.jump-arrow:hover {
+.no-results h2 {
     color: var(--neon-green);
+    margin-bottom: 1rem;
 }
 
-.page-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 1rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 1rem 2rem;
-    border-radius: 3rem;
-    color: var(--text-white);
-    text-decoration: none;
-    transition: all 0.3s ease;
+.no-results p {
+    color: var(--text-light-grey);
 }
 
-.page-btn:hover {
-    background-color: var(--electric-purple);
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(121, 40, 202, 0.4);
-}
-
-.page-btn.prev-page svg,
-.page-btn.next-page svg {
-    transition: transform 0.3s ease;
-}
-
-.page-btn.prev-page:hover svg {
-    transform: translateX(-5px);
-}
-
-.page-btn.next-page:hover svg {
-    transform: translateX(5px);
-}
-
-/* Responsive styles */
 @media (max-width: 768px) {
-    .hero-section h1 {
-        font-size: 3.5rem;
-    }
-    
-    .hero-section p {
-        font-size: 1.6rem;
-    }
-    
-    .search-input,
-    .search-filter .btn {
-        padding: 1rem 1.5rem;
-        font-size: 1.4rem;
-    }
-    
-    .cosmic-pagination {
-        flex-direction: column;
-        gap: 2rem;
-    }
-    
-    .page-number {
-        width: 3.5rem;
-        height: 3.5rem;
-        font-size: 1.4rem;
-    }
-    
-    .page-arrow {
-        width: 3.2rem;
-        height: 3.2rem;
+    .archive-title {
+        font-size: 2.5rem;
     }
     
     .posts-grid {
         grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-section h1 {
-        font-size: 2.8rem;
-    }
-    
-    .hero-section p {
-        font-size: 1.4rem;
-    }
-    
-    .tag {
-        padding: 0.6rem 1.2rem;
-        font-size: 1.2rem;
-    }
-    
-    .page-btn span {
-        display: none;
-    }
-    
-    .page-btn {
-        padding: 1rem;
     }
 }
 </style>

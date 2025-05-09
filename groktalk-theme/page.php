@@ -25,15 +25,31 @@ get_header();
             <!-- Page Header -->
             <header class="entry-header">
                 <div class="page-hero-section">
+                    <div class="neon-grid"></div>
+                    <div class="stars"></div>
+                    <div class="particles">
+                        <div class="particle particle-1"></div>
+                        <div class="particle particle-2"></div>
+                        <div class="particle particle-3"></div>
+                        <div class="particle particle-4"></div>
+                        <div class="particle particle-5"></div>
+                    </div>
                     <div class="container">
-                        <?php
-                        // Check if page has a custom hero background
-                        if ( has_post_thumbnail() ) :
-                            ?>
+                        <?php if ( has_post_thumbnail() ) : ?>
                             <div class="page-hero-background" style="background-image: url(<?php echo esc_url(get_the_post_thumbnail_url()); ?>);">
                         <?php else : ?>
                             <div class="page-hero-background">
                         <?php endif; ?>
+                                <!-- Category Badge (if applicable) -->
+                                <?php
+                                if (is_singular('post')) :
+                                    $categories = get_the_category();
+                                    if ( ! empty( $categories ) ) :
+                                        echo '<span class="category-badge">' . esc_html( $categories[0]->name ) . '</span>';
+                                    endif;
+                                endif;
+                                ?>
+                                
                                 <h1 class="entry-title page-title"><?php the_title(); ?></h1>
                                 
                                 <?php
@@ -122,8 +138,66 @@ endif;
 get_footer();
 ?>
 
+<!-- Custom JavaScript for page animations -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create stars for the hero section
+        createStarField();
+        
+        // Initialize scroll animations
+        initScrollAnimations();
+        
+        function createStarField() {
+            const stars = document.querySelector('.stars');
+            if (!stars) return;
+            
+            const starCount = Math.floor(window.innerWidth / 3);
+            
+            for (let i = 0; i < starCount; i++) {
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const opacity = Math.random() * 0.5 + 0.3;
+                const animationDelay = Math.random() * 3;
+                const animationDuration = Math.random() * 2 + 2;
+                
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = posX + '%';
+                star.style.top = posY + '%';
+                star.style.opacity = opacity;
+                star.style.animationDelay = animationDelay + 's';
+                star.style.animationDuration = animationDuration + 's';
+                
+                stars.appendChild(star);
+            }
+        }
+        
+        function initScrollAnimations() {
+            // Observer for scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            // Observe elements with animation class
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        }
+    });
+</script>
+
 <style>
-/* Styles for Page Template */
+/* Updated Styles for Page Template to match homepage */
 .single-page {
     background-color: var(--midnight-black);
 }
@@ -134,6 +208,7 @@ get_footer();
     padding: 8rem 0 4rem;
     text-align: center;
     overflow: hidden;
+    background: linear-gradient(135deg, var(--cosmic-blue), var(--midnight-black));
 }
 
 .page-hero-background {
@@ -158,13 +233,168 @@ get_footer();
     z-index: -1;
 }
 
+/* Stars and cosmic elements */
+.neon-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(121, 40, 202, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(121, 40, 202, 0.05) 1px, transparent 1px);
+    background-size: 5rem 5rem;
+    pointer-events: none;
+    opacity: 0.3;
+    animation: gridFloat 20s linear infinite;
+    z-index: 0;
+}
+
+@keyframes gridFloat {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-10px) scale(1.05);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+/* Particles */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(5px);
+    animation: floatParticle 15s infinite ease-in-out;
+}
+
+.particle-1 {
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at center, rgba(121, 40, 202, 0.3) 0%, transparent 70%);
+    top: 15%;
+    left: 10%;
+    animation-duration: 25s;
+}
+
+.particle-2 {
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle at center, rgba(144, 70, 207, 0.3) 0%, transparent 70%);
+    top: 70%;
+    left: 80%;
+    animation-duration: 20s;
+    animation-delay: -5s;
+}
+
+.particle-3 {
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle at center, rgba(121, 40, 202, 0.2) 0%, transparent 70%);
+    top: 40%;
+    left: 75%;
+    animation-duration: 18s;
+    animation-delay: -8s;
+}
+
+.particle-4 {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle at center, rgba(144, 70, 207, 0.2) 0%, transparent 70%);
+    top: 80%;
+    left: 20%;
+    animation-duration: 22s;
+    animation-delay: -12s;
+}
+
+.particle-5 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle at center, rgba(121, 40, 202, 0.15) 0%, transparent 70%);
+    top: 20%;
+    left: 60%;
+    animation-duration: 30s;
+    animation-delay: -15s;
+}
+
+@keyframes floatParticle {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(50px, -30px);
+    }
+    50% {
+        transform: translate(20px, 50px);
+    }
+    75% {
+        transform: translate(-30px, 20px);
+    }
+}
+
+.category-badge {
+    display: inline-block;
+    background-color: var(--electric-purple);
+    color: var(--text-white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 3rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    position: relative;
+    z-index: 2;
+}
+
 .page-title {
     color: var(--text-white);
-    font-size: 4.5rem;
+    font-size: 4.2rem;
     margin-bottom: 2rem;
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 0 15px rgba(121, 40, 202, 0.5);
 }
 
 .page-subtitle {
@@ -174,6 +404,8 @@ get_footer();
     margin-left: auto;
     margin-right: auto;
     line-height: 1.5;
+    position: relative;
+    z-index: 2;
 }
 
 /* Content Styling */
@@ -420,6 +652,18 @@ get_footer();
     font-size: 1.6rem;
 }
 
+/* Animation Classes */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-on-scroll.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
     .page-title {
@@ -454,6 +698,10 @@ get_footer();
         display: block;
         overflow-x: auto;
         white-space: nowrap;
+    }
+    
+    .particle {
+        display: none;
     }
 }
 
