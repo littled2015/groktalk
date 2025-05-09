@@ -8,8 +8,11 @@ get_header();
 
 <main id="primary" class="site-main front-page">
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Background Image -->
     <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="neon-grid"></div>
+        <div class="stars"></div>
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title"><?php esc_html_e( 'Innovative AI Solutions', 'groktalk' ); ?></h1>
@@ -264,41 +267,69 @@ get_header();
     background-color: var(--midnight-black);
 }
 
-/* Updated hero section with fixed logo support */
+/* Updated hero section with background image */
 .hero-section {
-    background: linear-gradient(135deg, var(--electric-purple), var(--cosmic-blue));
-    padding: 16rem 0 8rem; /* Increased top padding to accommodate fixed header/logo */
+    background-image: url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/hero.jpg'); ?>');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 8rem 0;
     text-align: center;
     position: relative;
     overflow: hidden;
-    margin-top: -80px; /* Negative margin to counter the site-content padding */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(121, 40, 202, 0.8), rgba(12, 14, 48, 0.9));
+    z-index: 1;
+}
+
+.neon-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(121, 40, 202, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(121, 40, 202, 0.05) 1px, transparent 1px);
+    background-size: 5rem 5rem;
+    pointer-events: none;
+    opacity: 0.3;
+    animation: gridFloat 20s linear infinite;
+    z-index: 2;
 }
 
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     max-width: 80rem;
     margin: 0 auto;
 }
 
 .hero-title {
     font-size: 6rem;
-    background: linear-gradient(to right, var(--text-white), var(--starlight-silver));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text-white);
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     margin-bottom: 1.5rem;
 }
 
 .hero-subtitle {
     font-size: 2.8rem;
     color: var(--text-white);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     margin-bottom: 2rem;
 }
 
 .hero-description {
     font-size: 1.8rem;
     color: var(--text-light-grey);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
     margin-bottom: 3rem;
     max-width: 70ch;
     margin-left: auto;
@@ -310,11 +341,6 @@ get_header();
     justify-content: center;
     gap: 2rem;
     margin-top: 2rem;
-}
-
-/* Admin bar adjustments */
-.admin-bar .hero-section {
-    margin-top: -112px; /* For admin bar on desktop */
 }
 
 /* Knowledge Grid Section with more blues and purples */
@@ -673,17 +699,7 @@ get_header();
 }
 
 /* Responsive adjustments */
-@media (max-width: 782px) {
-    .admin-bar .hero-section {
-        margin-top: -126px; /* For admin bar on mobile */
-    }
-}
-
 @media (max-width: 768px) {
-    .hero-section {
-        padding: 12rem 0 6rem; /* Adjusted for mobile */
-    }
-    
     .hero-title {
         font-size: 4rem;
     }
@@ -721,7 +737,7 @@ get_header();
         grid-template-columns: 1fr;
     }
     
-    .tool-logos {
+.tool-logos {
         flex-direction: column;
         align-items: center;
     }
@@ -738,10 +754,6 @@ get_header();
 }
 
 @media (max-width: 480px) {
-    .hero-section {
-        padding: 10rem 0 5rem; /* Further reduced for smaller screens */
-    }
-    
     .hero-title {
         font-size: 3.2rem;
     }
