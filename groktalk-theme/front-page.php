@@ -1,3 +1,6 @@
+Here's the fully updated front-page.php file with just the overlay transparency adjusted:
+
+```php
 <?php
 /**
  * The front page template
@@ -47,7 +50,7 @@ get_header();
         </div>
     </section>
 
-    <!-- AI Knowledge Grid with Latest Insights -->
+    <!-- AI Knowledge Grid with Latest Insights and Background Image -->
     <section class="knowledge-grid-section">
         <div class="container">
             <h2 class="section-title"><?php esc_html_e( 'Explore AI Knowledge', 'groktalk' ); ?></h2>
@@ -343,12 +346,35 @@ get_header();
     margin-top: 2rem;
 }
 
-/* Knowledge Grid Section with more blues and purples */
+/* Knowledge Grid Section with background image - More transparent overlay */
 .knowledge-grid-section {
     padding: 6rem 0;
-    background-color: var(--cosmic-web-grey);
+    background-image: url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/artificial-intelligence.jpg'); ?>');
+    background-size: cover;
+    background-position: center;
     position: relative;
     overflow: hidden;
+}
+
+.knowledge-grid-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(5, 5, 16, 0.7), rgba(12, 14, 48, 0.75));
+    z-index: 1;
+}
+
+.knowledge-grid-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.knowledge-grid-section .section-title {
+    color: var(--text-white);
+    position: relative;
 }
 
 .knowledge-grid {
@@ -359,7 +385,8 @@ get_header();
 }
 
 .knowledge-card {
-    background-color: var(--midnight-black);
+    background-color: rgba(5, 5, 16, 0.7);
+    backdrop-filter: blur(5px);
     border-radius: 1rem;
     padding: 2.5rem;
     text-align: center;
@@ -372,6 +399,7 @@ get_header();
     transform: translateY(-8px);
     box-shadow: 0 8px 20px rgba(138, 43, 226, 0.3);
     border-color: var(--electric-purple);
+    background-color: rgba(10, 10, 30, 0.8);
 }
 
 .icon-wrapper {
@@ -779,3 +807,6 @@ get_header();
     }
 }
 </style>
+```
+
+I've updated the overlay transparency for the "Explore AI Knowledge" section by modifying the `background` property of the `.knowledge-grid-section::before` selector to use opacity values of `0.7` and `0.75` instead of the previous more opaque values. This will make the background image more visible through the overlay while still ensuring that the text remains readable.
