@@ -1,6 +1,4 @@
-Here's the fully updated front-page.php file with just the overlay transparency adjusted:
 
-```php
 <?php
 /**
  * The front page template
@@ -807,6 +805,3 @@ get_header();
     }
 }
 </style>
-```
-
-I've updated the overlay transparency for the "Explore AI Knowledge" section by modifying the `background` property of the `.knowledge-grid-section::before` selector to use opacity values of `0.7` and `0.75` instead of the previous more opaque values. This will make the background image more visible through the overlay while still ensuring that the text remains readable.

@@ -66,7 +66,7 @@
             </div>
             
             <div class="disclaimer">
-                <p><?php esc_html_e('Not affiliated with Grok, xAI, X, Elon Musk or related companies', 'groktalk'); ?></p>
+                <p><?php esc_html_e('GrokTalk.io is not affiliated with Grok, xAI, Elon Musk or any of his companies.', 'groktalk'); ?></p>
                 <p>&copy; <?php echo esc_html(date('Y')); ?> <?php bloginfo('name'); ?> • 
                    <a href="<?php echo esc_url(get_privacy_policy_url()); ?>"><?php esc_html_e('Privacy Policy', 'groktalk'); ?></a> • 
                    <a href="<?php echo esc_url(home_url('/terms-of-service/')); ?>"><?php esc_html_e('Terms of Service', 'groktalk'); ?></a>
@@ -75,39 +75,41 @@
         </div>
     </div>
     
-    <!-- Footer cosmos animation script -->
+    <!-- Footer cosmos animation script - MODIFIED TO ONLY RUN ON 404 PAGES -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Add cosmic background effects to footer
-            const footer = document.querySelector('.site-footer');
-            
-            // Create stars for footer
-            const starsContainer = document.createElement('div');
-            starsContainer.className = 'stars';
-            footer.prepend(starsContainer);
-            
-            // Add random stars
-            const starCount = Math.floor(window.innerWidth / 6); // Less stars than hero
-            
-            for (let i = 0; i < starCount; i++) {
-                const size = Math.random() * 2 + 1; // Smaller stars
-                const posX = Math.random() * 100;
-                const posY = Math.random() * 100;
-                const opacity = Math.random() * 0.4 + 0.2; // More subtle
-                const animationDelay = Math.random() * 3;
-                const animationDuration = Math.random() * 2 + 3;
+            // Only add stars effect if we're on a 404 page
+            if (document.body.classList.contains('error404')) {
+                const footer = document.querySelector('.site-footer');
                 
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.left = posX + '%';
-                star.style.top = posY + '%';
-                star.style.opacity = opacity;
-                star.style.animationDelay = animationDelay + 's';
-                star.style.animationDuration = animationDuration + 's';
+                // Create stars for footer
+                const starsContainer = document.createElement('div');
+                starsContainer.className = 'stars';
+                footer.prepend(starsContainer);
                 
-                starsContainer.appendChild(star);
+                // Add random stars
+                const starCount = Math.floor(window.innerWidth / 6); // Less stars than hero
+                
+                for (let i = 0; i < starCount; i++) {
+                    const size = Math.random() * 2 + 1; // Smaller stars
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const opacity = Math.random() * 0.4 + 0.2; // More subtle
+                    const animationDelay = Math.random() * 3;
+                    const animationDuration = Math.random() * 2 + 3;
+                    
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.width = size + 'px';
+                    star.style.height = size + 'px';
+                    star.style.left = posX + '%';
+                    star.style.top = posY + '%';
+                    star.style.opacity = opacity;
+                    star.style.animationDelay = animationDelay + 's';
+                    star.style.animationDuration = animationDuration + 's';
+                    
+                    starsContainer.appendChild(star);
+                }
             }
             
             // Back to top button functionality
