@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define theme version for cache busting
  */
-define( 'GROKTALK_THEME_VERSION', '2.1.0' );
+define( 'GROKTALK_THEME_VERSION', '2.1.1' );
 
 /**
  * Enqueue theme styles and scripts
@@ -31,6 +31,9 @@ function groktalk_enqueue_assets() {
     
     // Light background section styles - new addition
     wp_enqueue_style('groktalk-light-sections', get_template_directory_uri() . '/assets/css/light-sections.css', array('groktalk-main'), GROKTALK_THEME_VERSION, 'all');
+    
+    // Light mode navigation fix - CORRECTED VERSION
+    wp_enqueue_style('groktalk-light-mode-fix', get_template_directory_uri() . '/assets/css/light-mode-fix.css', array('groktalk-main', 'groktalk-light-sections'), GROKTALK_THEME_VERSION);
     
     // 404 Page CSS - Changed to match the updated color scheme
     if (is_404()) {

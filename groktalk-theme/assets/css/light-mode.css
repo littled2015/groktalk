@@ -1,0 +1,67 @@
+/**
+ * Fix for Navigation Light Mode Styling Consistency
+ * 
+ * This CSS ensures consistent navigation styling between 
+ * page.php and front-page.php when in light mode
+ */
+
+/* Ensure light-theme styling applies to front page navigation */
+.light-theme.home-page .site-header,
+body.light-theme .site-header {
+    background-color: rgba(247, 247, 255, 0.9);
+    border-bottom: 1px solid rgba(121, 40, 202, 0.1);
+}
+
+.light-theme.home-page .site-title a,
+.light-theme.home-page .nav-menu li a {
+    color: var(--text-dark);
+}
+
+.light-theme.home-page .nav-menu li a:hover,
+.light-theme.home-page .nav-menu li.current-menu-item a {
+    color: var(--electric-purple);
+}
+
+.light-theme.home-page .mobile-menu-toggle {
+    color: var(--text-dark);
+}
+
+/* Add some additional specificity for edge cases */
+body.light-theme .site-header .nav-menu li a,
+.light-theme .site-header .nav-menu li a {
+    color: var(--text-dark);
+}
+
+body.light-theme .site-header .nav-menu li a:hover,
+body.light-theme .site-header .nav-menu li.current-menu-item a {
+    color: var(--electric-purple);
+}
+
+/* Override any front-page specific styling that might be interfering */
+.home-page.light-theme .site-header {
+    background-color: rgba(247, 247, 255, 0.9) !important;
+}
+
+.home-page.light-theme .nav-menu li a {
+    color: var(--text-dark) !important;
+}
+
+.home-page.light-theme .nav-menu li a:hover,
+.home-page.light-theme .nav-menu li.current-menu-item a {
+    color: var(--electric-purple) !important;
+}
+
+/* Fix for z-index issues in front page that might affect header visibility */
+.front-page .hero-section {
+    z-index: 0; /* Ensure it's below the header */
+}
+
+.site-header {
+    z-index: 1000; /* Ensure header always stays on top */
+    position: relative; /* Ensure proper stacking context */
+}
+
+/* Fix for possible hover state inconsistencies */
+.light-theme .nav-menu li a::after {
+    background: var(--electric-purple); /* Ensure underline is purple in light mode */
+}

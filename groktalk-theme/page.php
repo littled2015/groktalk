@@ -197,7 +197,7 @@ get_footer();
 </script>
 
 <style>
-/* Updated Styles for Page Template to match homepage */
+/* Updated Styles for Page Template - KEEPING CONTENT/HERO STYLING INTACT */
 .single-page {
     background-color: var(--midnight-black);
 }
