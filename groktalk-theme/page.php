@@ -138,7 +138,7 @@ endif;
 get_footer();
 ?>
 
-<!-- Custom JavaScript for page animations -->
+<!-- Custom JavaScript for page animations and light/dark mode toggling -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Create stars for the hero section
@@ -146,6 +146,9 @@ get_footer();
         
         // Initialize scroll animations
         initScrollAnimations();
+        
+        // Update theme mode if needed
+        initThemeMode();
         
         function createStarField() {
             const stars = document.querySelector('.stars');
@@ -193,13 +196,71 @@ get_footer();
                 observer.observe(el);
             });
         }
+        
+        function initThemeMode() {
+            // Check if light mode is active
+            const urlParams = new URLSearchParams(window.location.search);
+            const themeParam = urlParams.get('theme');
+            
+            if (themeParam === 'light') {
+                document.body.classList.add('light-theme');
+            }
+            
+            // Handle theme toggle clicks
+            const themeToggles = document.querySelectorAll('.theme-toggle');
+            themeToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    if (document.body.classList.contains('light-theme')) {
+                        document.body.classList.remove('light-theme');
+                    } else {
+                        document.body.classList.add('light-theme');
+                    }
+                });
+            });
+        }
     });
 </script>
 
 <style>
-/* Updated Styles for Page Template - KEEPING CONTENT/HERO STYLING INTACT */
+/* Updated Styles for Page Template - Light Theme Support */
 .single-page {
     background-color: var(--midnight-black);
+}
+
+/* Light Theme Overrides */
+body.light-theme .single-page {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+}
+
+body.light-theme .entry-content {
+    color: var(--text-dark);
+}
+
+body.light-theme .entry-content h2,
+body.light-theme .entry-content h3 {
+    color: var(--midnight-black);
+}
+
+body.light-theme .page-title {
+    color: var(--midnight-black);
+    text-shadow: none;
+}
+
+body.light-theme .page-subtitle {
+    color: var(--cosmic-web-grey);
+}
+
+body.light-theme .author-bio-section {
+    background-color: var(--starlight-silver);
+}
+
+body.light-theme .page-hero-section {
+    background: linear-gradient(135deg, var(--light-bg), #e8e8ff);
+}
+
+body.light-theme .page-hero-background::before {
+    background: linear-gradient(135deg, rgba(121, 40, 202, 0.4), rgba(247, 247, 255, 0.8));
 }
 
 /* Hero Section */
@@ -539,6 +600,25 @@ get_footer();
     background-color: rgba(121, 40, 202, 0.1);
 }
 
+/* Light mode adjustments for tables */
+body.light-theme .entry-content table th {
+    background-color: var(--electric-purple);
+    color: var(--text-white);
+}
+
+body.light-theme .entry-content table td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-dark);
+}
+
+body.light-theme .entry-content table tr:nth-child(even) {
+    background-color: rgba(121, 40, 202, 0.05);
+}
+
+body.light-theme .entry-content table tr:hover {
+    background-color: rgba(121, 40, 202, 0.1);
+}
+
 /* Code styling */
 .entry-content pre {
     background-color: var(--cosmic-web-grey);
@@ -553,6 +633,12 @@ get_footer();
     font-family: var(--font-family-mono);
     font-size: 1.5rem;
     color: var(--electric-purple);
+}
+
+/* Light mode adjustments for code */
+body.light-theme .entry-content pre {
+    background-color: #f5f5f5;
+    border: 1px solid rgba(121, 40, 202, 0.2);
 }
 
 /* Images styling */
@@ -583,10 +669,18 @@ get_footer();
     text-align: center;
 }
 
+body.light-theme .page-links {
+    background-color: rgba(121, 40, 202, 0.1);
+}
+
 .page-links-title {
     color: var(--text-white);
     margin-right: 1rem;
     font-weight: 600;
+}
+
+body.light-theme .page-links-title {
+    color: var(--text-dark);
 }
 
 .page-links a,
@@ -602,6 +696,12 @@ get_footer();
     color: var(--text-light-grey);
     text-decoration: none;
     transition: all 0.3s ease;
+}
+
+body.light-theme .page-links a,
+body.light-theme .page-links span {
+    background-color: rgba(121, 40, 202, 0.1);
+    color: var(--text-dark);
 }
 
 .page-links a:hover {
@@ -620,6 +720,10 @@ get_footer();
     padding: 4rem 0;
     background-color: var(--cosmic-web-grey);
     margin-top: 2rem;
+}
+
+body.light-theme .comments-section {
+    background-color: #f0f0f5;
 }
 
 /* Edit link styling */

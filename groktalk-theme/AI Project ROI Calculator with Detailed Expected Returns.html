@@ -1,0 +1,373 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Project ROI Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .section h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .category {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+        .category h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+        .entry {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .entry input[type="number"], .entry select {
+            width: 100px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .entry input[type="text"] {
+            flex-grow: 1;
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .entry button {
+            padding: 5px 10px;
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .entry button:hover {
+            background-color: #cc0000;
+        }
+        .add-entry {
+            background-color: #4CAF50;
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .add-entry:hover {
+            background-color: #45a049;
+        }
+        #results p {
+            font-size: 1.2em;
+            color: #333;
+            margin: 5px 0;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .subcategory-group {
+            margin-left: 20px;
+            padding-left: 10px;
+            border-left: 2px solid #ccc;
+        }
+        .subcategory-group h4 {
+            font-size: 1.1em;
+            color: #444;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>AI Project ROI Calculator</h1>
+    <p>Please enter all costs and expected returns over the entire lifetime of the AI project.</p>
+
+    <!-- Section 1: Project Length -->
+    <div class="section">
+        <h2>Section 1: Project Length</h2>
+        <label for="project-length">Project Length (years):</label>
+        <input type="number" id="project-length" min="1" step="1" value="3">
+    </div>
+
+    <!-- Section 2: Initial Expenses -->
+    <div class="section">
+        <h2>Section 2: Initial Expenses</h2>
+        <div id="cost-calculator"></div>
+    </div>
+
+    <!-- Section 3: Expected Returns -->
+    <div class="section">
+        <h2>Section 3: Expected Returns</h2>
+        <div id="return-calculator"></div>
+    </div>
+
+    <!-- Section 4: Results -->
+    <div class="section" id="results">
+        <h2>Section 4: Results</h2>
+        <p id="total-cost">Total Costs: $0.00</p>
+        <p id="total-returns">Total Expected Returns: $0.00</p>
+        <p id="roi">Overall ROI: 0.00%</p>
+        <p id="annualized-roi">Annualized ROI: N/A</p>
+        <p><em>Note: Annualized ROI is calculated using the formula for Compound Annual Growth Rate (CAGR), assuming the returns are achieved over the project period.</em></p>
+    </div>
+
+    <script>
+        const costCategories = [
+            { name: "Hardware Costs", description: "Costs for servers, GPUs, or other hardware over the project's lifetime." },
+            { name: "Software Costs", description: "Licenses or subscriptions for AI tools and platforms over the project's lifetime." },
+            { name: "Data Costs", description: "Expenses for data acquisition, storage, or processing over the project's lifetime." },
+            { name: "Personnel Costs", description: "Salaries for developers, data scientists, etc., over the project's lifetime." },
+            { name: "Training and Development Costs", description: "Costs for training AI models or staff over the project's lifetime." },
+            { name: "Integration Costs", description: "Expenses to integrate AI into existing systems over the project's lifetime." },
+            { name: "Maintenance and Updating Costs", description: "Ongoing costs for updates and upkeep over the project's lifetime." },
+            { name: "Change Management Costs", description: "Expenses for managing organizational change over the project's lifetime." },
+            { name: "Compliance and Ethical Costs", description: "Costs for legal compliance or ethical audits over the project's lifetime." }
+        ];
+
+        const returnCategories = [
+            { name: "Cost Savings", description: "Expected savings from reduced costs.", parent: null },
+            { name: "Revenue Growth", description: "Expected increase in revenue.", parent: null },
+            { name: "Task Automation", description: "Returns from automating tasks.", parent: "Efficiency Gains" },
+            { name: "Error Reduction", description: "Returns from reducing errors.", parent: "Efficiency Gains" },
+            { name: "Availability", description: "Returns from increased availability.", parent: "Efficiency Gains" },
+            { name: "Better Decision-Making", description: "Returns from improved decision-making.", parent: "Risk Reduction" },
+            { name: "Improved Data Analysis", description: "Returns from better data analysis.", parent: "Risk Reduction" }
+        ];
+
+        const costCalculator = document.getElementById("cost-calculator");
+        const returnCalculator = document.getElementById("return-calculator");
+        let projectLength = parseInt(document.getElementById("project-length").value) || 0;
+
+        function createCategory(name, description, type, container) {
+            const div = document.createElement("div");
+            div.className = `category ${type}-category`;
+            div.innerHTML = `
+                <h3>
+                    <span class="tooltip">${name}
+                        <span class="tooltiptext">${description}</span>
+                    </span>
+                </h3>
+                <div class="entries"></div>
+                <button class="add-entry">Add Entry</button>
+            `;
+            const entries = div.querySelector(".entries");
+            const addButton = div.querySelector(".add-entry");
+
+            addButton.addEventListener("click", () => addEntry(entries, type));
+            addEntry(entries, type); // Add one entry by default
+            container.appendChild(div);
+        }
+
+        function addEntry(entries, type) {
+            const entry = document.createElement("div");
+            entry.className = `entry ${type}-entry`;
+            entry.innerHTML = `
+                <input type="number" min="0" step="0.01" placeholder="${type === 'cost' ? 'Cost' : 'Return'} ($)" value="0">
+                <select class="start-year">
+                    ${generateYearOptions()}
+                </select>
+                <span>to</span>
+                <select class="end-year">
+                    ${generateYearOptions()}
+                </select>
+                <input type="text" placeholder="Description (optional)">
+                <button>Remove</button>
+            `;
+            const input = entry.querySelector("input[type='number']");
+            const startYearSelect = entry.querySelector(".start-year");
+            const endYearSelect = entry.querySelector(".end-year");
+            const removeButton = entry.querySelector("button");
+
+            // Set default end year to start year
+            endYearSelect.value = startYearSelect.value;
+
+            input.addEventListener("input", updateTotal);
+            startYearSelect.addEventListener("change", () => {
+                if (parseInt(startYearSelect.value) > parseInt(endYearSelect.value)) {
+                    endYearSelect.value = startYearSelect.value;
+                }
+                updateTotal();
+            });
+            endYearSelect.addEventListener("change", () => {
+                if (parseInt(endYearSelect.value) < parseInt(startYearSelect.value)) {
+                    startYearSelect.value = endYearSelect.value;
+                }
+                updateTotal();
+            });
+            removeButton.addEventListener("click", () => {
+                entries.removeChild(entry);
+                updateTotal();
+            });
+
+            entries.appendChild(entry);
+            updateTotal();
+        }
+
+        function generateYearOptions() {
+            let options = '';
+            for (let i = 1; i <= projectLength; i++) {
+                options += `<option value="${i}">Year ${i}</option>`;
+            }
+            return options;
+        }
+
+        function createReturnCategories() {
+            // Create main categories without parent
+            returnCategories.filter(cat => cat.parent === null).forEach(category => {
+                createCategory(category.name, category.description, "return", returnCalculator);
+            });
+
+            // Create Efficiency Gains group
+            const efficiencyGroup = document.createElement("div");
+            efficiencyGroup.className = "subcategory-group";
+            efficiencyGroup.innerHTML = `<h4>Efficiency Gains</h4>`;
+            returnCalculator.appendChild(efficiencyGroup);
+            returnCategories.filter(cat => cat.parent === "Efficiency Gains").forEach(category => {
+                createCategory(category.name, category.description, "return", efficiencyGroup);
+            });
+
+            // Create Risk Reduction group
+            const riskGroup = document.createElement("div");
+            riskGroup.className = "subcategory-group";
+            riskGroup.innerHTML = `<h4>Risk Reduction</h4>`;
+            returnCalculator.appendChild(riskGroup);
+            returnCategories.filter(cat => cat.parent === "Risk Reduction").forEach(category => {
+                createCategory(category.name, category.description, "return", riskGroup);
+            });
+        }
+
+        function updateTotal() {
+            projectLength = parseInt(document.getElementById("project-length").value) || 0;
+            let totalCosts = 0;
+            let totalReturns = 0;
+
+            document.querySelectorAll(".cost-entry").forEach(entry => {
+                const amount = parseFloat(entry.querySelector("input[type='number']").value) || 0;
+                const startYear = parseInt(entry.querySelector(".start-year").value);
+                const endYear = parseInt(entry.querySelector(".end-year").value);
+                const yearsSpan = endYear - startYear + 1;
+                totalCosts += amount / yearsSpan;
+            });
+
+            document.querySelectorAll(".return-entry").forEach(entry => {
+                const amount = parseFloat(entry.querySelector("input[type='number']").value) || 0;
+                const startYear = parseInt(entry.querySelector(".start-year").value);
+                const endYear = parseInt(entry.querySelector(".end-year").value);
+                const yearsSpan = endYear - startYear + 1;
+                totalReturns += amount / yearsSpan;
+            });
+
+            let roi = totalCosts > 0 ? ((totalReturns - totalCosts) / totalCosts * 100).toFixed(2) + "%" : "N/A";
+
+            let annualizedROI;
+            if (totalCosts > 0 && projectLength > 0 && totalReturns > 0) {
+                let ratio = totalReturns / totalCosts;
+                annualizedROI = (Math.pow(ratio, 1 / projectLength) - 1) * 100;
+                annualizedROI = annualizedROI.toFixed(2) + "%";
+            } else {
+                annualizedROI = "N/A";
+            }
+
+            document.getElementById("total-cost").textContent = `Total Costs: $${totalCosts.toFixed(2)}`;
+            document.getElementById("total-returns").textContent = `Total Expected Returns: $${totalReturns.toFixed(2)}`;
+            document.getElementById("roi").textContent = `Overall ROI: ${roi}`;
+            document.getElementById("annualized-roi").textContent = `Annualized ROI: ${annualizedROI}`;
+        }
+
+        // Create cost categories in Section 2
+        costCategories.forEach(category => createCategory(category.name, category.description, "cost", costCalculator));
+
+        // Create return categories in Section 3 with subgroups
+        createReturnCategories();
+
+        // Add event listener to project length input
+        document.getElementById("project-length").addEventListener("input", () => {
+            projectLength = parseInt(document.getElementById("project-length").value) || 0;
+            document.querySelectorAll(".start-year, .end-year").forEach(select => {
+                select.innerHTML = generateYearOptions();
+            });
+            updateTotal();
+        });
+
+        // Initial update
+        updateTotal();
+    </script>
+</body>
+</html>
